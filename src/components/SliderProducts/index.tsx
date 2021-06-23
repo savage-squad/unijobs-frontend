@@ -22,8 +22,9 @@ const Slider: React.FC = () => {
   const [products, setProducts] = useState<IItem[]>([]);
 
   useEffect(() => {
-    api.get('/items/1').then(response => {
-      setProducts(response.data.data);
+    api.get('/servicos').then(response => {
+      console.log(response.data);
+      setProducts(response.data.content);
     });
   }, []);
 

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // new ip v2
 const api = axios.create({
-  baseURL: `https://unijobsback.uniamerica.br/api`,
+  baseURL: `http://localhost:8080`,
 });
 
 async function getRefreshToken(error: Error) {
@@ -11,6 +11,7 @@ async function getRefreshToken(error: Error) {
       const refresh_token = localStorage.getItem('@UniJobs:refreshToken');
 
       if (refresh_token) {
+        console.log("aki");
         api
           .post(`/refreshToken`, refresh_token)
           .then(async res => {
