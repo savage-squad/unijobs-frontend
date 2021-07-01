@@ -40,12 +40,12 @@ const LandingPage: React.FC = () => {
           <CategoriesCard
             icon={IoMdCart}
             title="Produtos"
-            link="/categories/products/1"
+            link="/categories/produtos/0"
           />
           <CategoriesCard
             icon={IoMdBuild}
             title="Serviços"
-            link="/categories/services/1"
+            link="/categories/servicos/0"
           />
         </Sider>
 

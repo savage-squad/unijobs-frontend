@@ -43,7 +43,7 @@ const Catalog: React.FC = () => {
     setLoading(true);
     if (itemType) {
       const separetedCategorie = splitString(itemType, '/');
-      console.log(`${separetedCategorie[0]}/${params.page}`);
+      console.log(`${separetedCategorie[0]}?page=${params.page}`);
       if (separetedCategorie.length === 2) {
         api
           .get(
@@ -58,9 +58,9 @@ const Catalog: React.FC = () => {
         setLoading(false);
       } else {
         api
-          .get(`/${separetedCategorie[0]}/${params.page}`)
+          .get(`/${separetedCategorie[0]}?page=${params.page}&size=5`)
           .then(response => {
-            setProducts(response.data.data);
+            setProducts(response.data.content);
           })
           .catch(e => {
             console.log(e);
@@ -101,8 +101,8 @@ const Catalog: React.FC = () => {
                 />
                 <Informations>
                   <span>{product.type}</span>
-                  <h1>{product.title}</h1>
-                  <p>{product.description}</p>
+                  <h1>{product.titulo}</h1>
+                  <p>{product.descricao}</p>
                 </Informations>
                 <strong>R$ {product.price}</strong>
               </Link>
