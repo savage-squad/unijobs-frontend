@@ -22,9 +22,9 @@ const Slider: React.FC = () => {
   const [products, setProducts] = useState<IItem[]>([]);
 
   useEffect(() => {
-    api.get('/servicos').then(response => {
+    api.get('/itens').then(response => {
       console.log(response.data);
-      setProducts(response.data.content);
+      setProducts(response.data);
     });
   }, []);
 
@@ -51,9 +51,9 @@ const Slider: React.FC = () => {
           <ProductContent>
             <ProductHeader>
               <ProductCategory>{product.type}</ProductCategory>
-              <ProductTitle>{product.title}</ProductTitle>
+              <ProductTitle>{product.titulo}</ProductTitle>
             </ProductHeader>
-            <ProductDescription>{product.description}</ProductDescription>
+            <ProductDescription>{product.descricao}</ProductDescription>
             <ProductFooter>
               <ProductLink to={`/item/${product.id}`}>
                 + informações
