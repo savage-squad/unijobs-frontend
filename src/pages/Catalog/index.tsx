@@ -40,48 +40,8 @@ const Catalog: React.FC = () => {
   }
 
   useEffect(() => {
-    setLoading(true);
-    if (itemType) {
-      const separetedCategorie = splitString(itemType, '/');
-      console.log(`${separetedCategorie[0]}?page=${params.page}`);
-      if (separetedCategorie.length === 2) {
-        api
-          .get(
-            `/${separetedCategorie[0]}/${separetedCategorie[1]}/${params.page}`,
-          )
-          .then(response => {
-            setProducts(response.data.data);
-          })
-          .catch(e => {
-            console.log(e);
-          });
-        setLoading(false);
-      } else {
-        api
-          .get(`/${separetedCategorie[0]}?page=${params.page}&size=5`)
-          .then(response => {
-            setProducts(response.data.content);
-          })
-          .catch(e => {
-            console.log(e);
-          });
-        setLoading(false);
-      }
-    } else {
-      api
-        .get(`/items/${params.page}`)
-        .then(response => {
-          setProducts(response.data.data);
-        })
-        .catch(e => {
-          console.log(e);
-        });
-      setLoading(false);
-    }
-    const nextPage = parseInt(params.page) + 1;
-    setNextPage(nextPage.toString());
-    setLoading(false);
-  }, [itemType, params.itemType, params.page]);
+    api.get("/itens").then(res => console.log(res));
+  }, [])
 
   const history = useHistory();
 
@@ -91,7 +51,7 @@ const Catalog: React.FC = () => {
       <Loading loading={loading} />
       <Banner backIcon />
       <Container>
-        {products.map(product => {
+        {products && products.map(product => {
           return (
             <Content key={product.id}>
               <Link to={`/item/${product.id}`} key={product.id}>

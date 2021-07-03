@@ -27,14 +27,15 @@ const Product: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [post, setPost] = useState<IItem>();
   const { params } = useRouteMatch<RepositoryParams>();
+  const imageNotFound: string = "https://media.istockphoto.com/vectors/error-404-page-not-found-vector-id673101428?k=6&m=673101428&s=170667a&w=0&h=xr8E71CR8ZabAwW7ku9RRy8xFJqp3Pq-gaMDnD6Qh1c=";
 
   useEffect(() => {
     setLoading(true);
     api
-      .get(`/item/${params.id}`)
+      .get(`/produtos/${params.id}`)
       .then(response => {
-        console.log(response.data[0]);
-        setPost(response.data[0]);
+        console.log(response.data);
+        setPost(response.data);
       })
       .catch(e => {
         console.log(e);
@@ -43,7 +44,14 @@ const Product: React.FC = () => {
   }, [params.id]);
 
   // Remove tudo exceto números
-  const contactLink = post?.user.phone.replace(/[^\d]+/g, '');
+  const contactLink = post?.contato?.replace(/[^\d]+/g, '');
+
+  function maskPhone(v:string = ""){
+    v=v.replace(/\D/g,"");             //Remove tudo o que não é dígito
+    v=v.replace(/^(\d{2})(\d)/g,"($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
+    v=v.replace(/(\d)(\d{4})$/,"$1-$2");    //Coloca hífen entre o quarto e o quinto dígitos
+    return v;
+  }
 
   return (
     <>
@@ -54,20 +62,20 @@ const Product: React.FC = () => {
         <Item>
           <Images>
             <img
-              src={`http://200.208.73.149:3333/api/files/${post?.image_id}`}
+              src={post?.miniatura?.includes("http")? post.miniatura : imageNotFound}
               alt={post?.title}
             />
           </Images>
 
           <InfoContact>
             <p>
-              Por <strong>{post?.user.name}</strong>
+             Por: <strong>{post?.anunciante}</strong>
             </p>
-            <h1>{post?.title}</h1>
+            <h1>{post?.titulo}</h1>
 
             <Price>
               <p>Preço: </p>
-              <span>R$ {post?.price}</span>
+              <span>R$ {post?.preco}</span>
             </Price>
             <Buttons>
               <a
@@ -76,14 +84,14 @@ const Product: React.FC = () => {
                 rel="noopener noreferrer"
               >
                 <FaWhatsapp size={25} style={{ marginRight: 12 }} />
-                {post?.user.phone}
+                {maskPhone(post?.contato)}
               </a>
             </Buttons>
           </InfoContact>
 
           <Description>
             <h4>Descrição</h4>
-            <p>{post?.description}</p>
+            <p>{post?.descricao}</p>
           </Description>
         </Item>
       </Content>
