@@ -96,7 +96,7 @@ const Catalog: React.FC = () => {
             <Content key={product.id}>
               <Link to={`/item/${product.id}`} key={product.id}>
                 <img
-                  src={`http://200.208.73.149:3333/api/files/${product.thumbnail_id}`}
+                  src={`${product.miniatura}`}
                   alt="Produto"
                 />
                 <Informations>

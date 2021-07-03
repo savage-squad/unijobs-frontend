@@ -45,9 +45,9 @@ const Slider: React.FC = () => {
       {products.map(product => (
         <ProductItem key={product.id}>
           <ProductImage
-            src={`http://200.208.73.149:3333/api/files/${product.thumbnail_id}`}
-            alt={product.title}
-          />
+            src={`${product.miniatura}`}
+            alt={product.titulo}
+          /> 
           <ProductContent>
             <ProductHeader>
               <ProductCategory>{product.type}</ProductCategory>
