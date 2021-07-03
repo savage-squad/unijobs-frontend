@@ -24,10 +24,10 @@ const Slider: React.FC = () => {
   const imageNotFound: string = "https://media.istockphoto.com/vectors/error-404-page-not-found-vector-id673101428?k=6&m=673101428&s=170667a&w=0&h=xr8E71CR8ZabAwW7ku9RRy8xFJqp3Pq-gaMDnD6Qh1c=";
 
   useEffect(() => {
-    // api.get('/itens').then(response => {
-    //   console.log(response.data);
-    //   setProducts(response.data);
-    // });
+    api.get('/itens').then(response => {
+      console.log(response.data);
+      setProducts(response.data);
+    });
   }, []);
 
   return (
