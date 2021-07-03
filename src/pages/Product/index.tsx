@@ -27,7 +27,7 @@ const Product: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [post, setPost] = useState<IItem>();
   const { params } = useRouteMatch<RepositoryParams>();
-  const imageNotFound: string = "https://media.istockphoto.com/vectors/error-404-page-not-found-vector-id673101428?k=6&m=673101428&s=170667a&w=0&h=xr8E71CR8ZabAwW7ku9RRy8xFJqp3Pq-gaMDnD6Qh1c=";
+  const imageNotFound: string = "https://i.imgur.com/sM05PIm.png";
 
   useEffect(() => {
     setLoading(true);

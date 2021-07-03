@@ -32,7 +32,7 @@ const Catalog: React.FC = () => {
   const { params } = useRouteMatch<RepositoryParams>();
   const [loading, setLoading] = useState(false);
 
-  const imageNotFound: string = "https://media.istockphoto.com/vectors/error-404-page-not-found-vector-id673101428?k=6&m=673101428&s=170667a&w=0&h=xr8E71CR8ZabAwW7ku9RRy8xFJqp3Pq-gaMDnD6Qh1c=";
+  const imageNotFound: string = "https://imgur.com/sM05PIm";
 
   const { itemType } = params;
 
@@ -106,7 +106,7 @@ const Catalog: React.FC = () => {
                   <h1>{product.titulo}</h1>
                   <p>{product.descricao}</p>
                 </Informations>
-                <strong>R$ {product.price}</strong>
+                <strong>R$ {product.preco}</strong>
               </Link>
             </Content>
           );
