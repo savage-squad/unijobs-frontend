@@ -26,13 +26,10 @@ import ScrollToTopOnMount from '../../utils/ScrollToTopOnMount';
 
 interface SignUpFormData {
   email: string;
-  name: string;
-  academic_record: number;
-  phone: number;
-  user_type: string;
-  course: string;
-  password: string;
-  password_confirmation: string;
+  nome: string;
+  ra: number;
+  celular: number;
+  senha: string;
 }
 
 const RegisterUser: React.FC = () => {
@@ -50,17 +47,17 @@ const RegisterUser: React.FC = () => {
 
         formRef.current?.setErrors({});
         const schema = Yup.object().shape({
-          name: Yup.string().required(),
+          nome: Yup.string().required(),
           email: Yup.string()
             .required('E-mail obrigatório')
             .email('Digite um e-mail válido'),
-          academic_record: Yup.number().required('Apenas números são aceitos'),
-          course: Yup.string().required('Escolha seu curso'),
-          phone: Yup.number().required('Digite um telefone válido'),
-          user_type: Yup.string().required('Vendedor ou Comprador'),
-          password: Yup.string().required('Senha é necessária'),
-          password_confirmation: Yup.string().oneOf(
-            [Yup.ref('password'), undefined],
+          ra: Yup.number().required('Apenas números são aceitos'),
+          // course: Yup.string().required('Escolha seu curso'),
+          celular: Yup.number().required('Digite um telefone válido'),
+          // user_type: Yup.string().required('Vendedor ou Comprador'),
+          senha: Yup.string().required('Senha é necessária'),
+          senha_confirmacao: Yup.string().oneOf(
+            [Yup.ref('senha'), undefined],
             'Senhas devem ser iguais',
           ),
         });
@@ -69,7 +66,7 @@ const RegisterUser: React.FC = () => {
           abortEarly: false,
         });
 
-        await api.post('/users', data);
+        await api.post('/register', data);
 
         addToast({
           type: 'sucess',
@@ -109,7 +106,7 @@ const RegisterUser: React.FC = () => {
           </FormLinks>
           <Form onSubmit={handleSubmit}>
             <Input
-              name="name"
+              name="nome"
               type="text"
               label="Nome Completo"
               placeholder="Digite seu Nome Completo"
@@ -121,12 +118,12 @@ const RegisterUser: React.FC = () => {
               placeholder="Digite seu E-mail"
             />
             <Input
-              name="phone"
+              name="celular"
               type="tel"
               label="Telefone ou Celular"
               placeholder="Digite seu Telefone ou Celular"
             />
-            <Select
+            {/* <Select
               name="user_type"
               label="Você é vendedor ou comprador?"
               options={[
@@ -134,27 +131,27 @@ const RegisterUser: React.FC = () => {
                 // { value: 'comprador', label: 'Comprador' },
               ]}
               placeholder="Você é vendedor ou comprador?"
-            />
+            /> */}
             <Input
-              name="academic_record"
+              name="ra"
               type="number"
               label="Ra do Aluno"
               placeholder="Digite seu RA"
             />
-            <Select
+            {/* <Select
               name="course"
               label="Escolha seu curso"
               options={Courses}
               placeholder="Selecione seu curso"
-            />
+            /> */}
             <Input
-              name="password"
+              name="senha"
               type="password"
               label="Escolha sua senha"
               placeholder="Digite sua Senha"
             />
             <Input
-              name="password_confirmation"
+              name="senha_confirmacao"
               type="password"
               label="Confirme sua senha"
               placeholder="Digite sua Senha"
