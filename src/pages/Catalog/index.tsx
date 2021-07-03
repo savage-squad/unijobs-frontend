@@ -32,6 +32,8 @@ const Catalog: React.FC = () => {
   const { params } = useRouteMatch<RepositoryParams>();
   const [loading, setLoading] = useState(false);
 
+  const imageNotFound: string = "https://media.istockphoto.com/vectors/error-404-page-not-found-vector-id673101428?k=6&m=673101428&s=170667a&w=0&h=xr8E71CR8ZabAwW7ku9RRy8xFJqp3Pq-gaMDnD6Qh1c=";
+
   const { itemType } = params;
 
   function splitString(stringToSplit: string, separator: string) {
@@ -96,7 +98,7 @@ const Catalog: React.FC = () => {
             <Content key={product.id}>
               <Link to={`/item/${product.id}`} key={product.id}>
                 <img
-                  src={`${product.miniatura}`}
+                  src={product.miniatura?.includes("http")? product.miniatura : imageNotFound}
                   alt="Produto"
                 />
                 <Informations>
