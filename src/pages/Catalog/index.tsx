@@ -40,8 +40,48 @@ const Catalog: React.FC = () => {
   }
 
   useEffect(() => {
-    api.get("/itens").then(res => console.log(res));
-  }, [])
+    setLoading(true);
+    if (itemType) {
+      const separetedCategorie = splitString(itemType, '/');
+      console.log(`${separetedCategorie[0]}?page=${params.page}`);
+      if (separetedCategorie.length === 2) {
+        api
+          .get(
+            `/${separetedCategorie[0]}/${separetedCategorie[1]}/${params.page}`,
+          )
+          .then(response => {
+            setProducts(response.data.data);
+          })
+          .catch(e => {
+            console.log(e);
+          });
+        setLoading(false);
+      } else {
+        api
+          .get(`/${separetedCategorie[0]}?page=${params.page}&size=5`)
+          .then(response => {
+            setProducts(response.data.content);
+          })
+          .catch(e => {
+            console.log(e);
+          });
+        setLoading(false);
+      }
+    } else {
+      api
+        .get(`/items/${params.page}`)
+        .then(response => {
+          setProducts(response.data.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+      setLoading(false);
+    }
+    const nextPage = parseInt(params.page) + 1;
+    setNextPage(nextPage.toString());
+    setLoading(false);
+  }, [itemType, params.itemType, params.page]);
 
   const history = useHistory();
 
