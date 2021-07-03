@@ -21,6 +21,8 @@ import api from '../../services/api';
 const Slider: React.FC = () => {
   const [products, setProducts] = useState<IItem[]>([]);
 
+  const imageNotFound: string = "https://media.istockphoto.com/vectors/error-404-page-not-found-vector-id673101428?k=6&m=673101428&s=170667a&w=0&h=xr8E71CR8ZabAwW7ku9RRy8xFJqp3Pq-gaMDnD6Qh1c=";
+
   useEffect(() => {
     api.get('/itens').then(response => {
       console.log(response.data);
@@ -45,9 +47,9 @@ const Slider: React.FC = () => {
       {products.map(product => (
         <ProductItem key={product.id}>
           <ProductImage
-            src={`${product.miniatura}`}
-            alt={product.titulo}
-          /> 
+            src={product.miniatura?.includes("http")? product.miniatura : imageNotFound}
+            alt={product.title}
+          />
           <ProductContent>
             <ProductHeader>
               <ProductCategory>{product.type}</ProductCategory>
@@ -58,7 +60,7 @@ const Slider: React.FC = () => {
               <ProductLink to={`/item/${product.id}`}>
                 + informações
               </ProductLink>
-              <ProductPrice>R$ {product.price}</ProductPrice>
+              <ProductPrice>R$ {product.preco}</ProductPrice>
             </ProductFooter>
           </ProductContent>
         </ProductItem>
