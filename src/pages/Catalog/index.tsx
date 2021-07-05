@@ -51,7 +51,7 @@ const Catalog: React.FC = () => {
             `/${separetedCategorie[0]}/${separetedCategorie[1]}/${params.page}`,
           )
           .then(response => {
-            setProducts(response.data.data);
+            setProducts(response.data);
           })
           .catch(e => {
             console.log(e);

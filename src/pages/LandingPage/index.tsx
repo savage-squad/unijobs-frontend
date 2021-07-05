@@ -87,7 +87,7 @@ const LandingPage: React.FC = () => {
             <CategoriesCard
               icon={IoIosIceCream}
               title={servicesType.nome}
-              link={"/categories/servicos/"+ servicesType.nome +"/1"}
+              link={"/categories/tiposServicos/"+ servicesType.id_tipo_servico +"/servicos"}
             />
           ))}
           
@@ -114,7 +114,7 @@ const LandingPage: React.FC = () => {
             <CategoriesCard
               icon={IoIosIceCream}
               title={productsType.nome}
-              link={"/categories/produtos/"+ productsType.nome +"/1"}
+              link={"/categories/tipos_produtos/"+ productsType.id_tipo_produto +"/produtos"}
             />
           ))
 
