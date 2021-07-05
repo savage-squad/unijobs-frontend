@@ -45,7 +45,6 @@ const Catalog: React.FC = () => {
     setLoading(true);
     if (itemType) {
       const separetedCategorie = splitString(itemType, '/');
-      console.log(`${separetedCategorie[0]}?page=${params.page}`);
       if (separetedCategorie.length === 2) {
         api
           .get(

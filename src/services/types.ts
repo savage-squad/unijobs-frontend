@@ -62,3 +62,8 @@ interface Item {
   course: string;
   contact: string;
 }
+
+export interface ITypes {
+  id  : string;
+  nome  : string;
+}

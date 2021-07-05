@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Carousel from '@brainhubeu/react-carousel';
 import '@brainhubeu/react-carousel/lib/style.css';
@@ -23,8 +23,24 @@ import Footer from '../../components/Footer';
 import { Title, Container, Sider, Imagem } from './styles';
 import aboutUnijobs from '../../assets/about-unijobs.png';
 import ScrollToTopOnMount from '../../utils/ScrollToTopOnMount';
+import api from '../../services/api';
+import { ITypes } from '../../services/types';
 
 const LandingPage: React.FC = () => {
+  const [servicesTypes, setServicesTypes] = useState<ITypes[]>([]);
+  const [productsTypes, setProductsTypes] = useState<ITypes[]>([]);
+
+  useEffect(() => {
+    api.get('/tiposServicos').then(response => {
+      console.log(response.data);
+      setServicesTypes(response.data);
+    });
+    api.get('/tipos_produtos').then(response => {
+      console.log(response.data);
+      setProductsTypes(response.data);
+    });
+  }, []);
+
   return (
     <>
       <ScrollToTopOnMount />
@@ -49,8 +65,8 @@ const LandingPage: React.FC = () => {
           />
         </Sider>
 
-        <Title>Categorias</Title>
-        {/* <Carousel
+        <Title>Serviços</Title>
+        <Carousel
           infinite
           slidesPerPage={4}
           arrowLeft={<FiChevronLeft size={60} color="#0E346A" />}
@@ -67,37 +83,44 @@ const LandingPage: React.FC = () => {
             },
           }}
         >
-          <CategoriesCard
-            icon={IoIosIceCream}
-            title="Gastronomia"
-            link="/categories/products/gastronomia/1"
-          />
-          <CategoriesCard
-            icon={IoIosSchool}
-            title="Aulas particulares"
-            link="/categories/services/aula-particular/1"
-          />
-          <CategoriesCard
-            icon={IoIosShirt}
-            title="Roupas"
-            link="/categories/products/roupas-e-calcados/1"
-          />
-          <CategoriesCard
-            icon={IoIosHeadset}
-            title="Acessórios"
-            link="/categories/products/acessorios/1"
-          />
-          <CategoriesCard
-            icon={IoIosBulb}
-            title="Roupas"
-            link="/categories/products/artesanatos/1"
-          />
-          <CategoriesCard
-            icon={IoIosHourglass}
-            title="Outros"
-            link="/catalog/1"
-          />
-        </Carousel> */}
+          {servicesTypes.map(servicesType =>(
+            <CategoriesCard
+              icon={IoIosIceCream}
+              title={servicesType.nome}
+              link={"/categories/servicos/"+ servicesType.nome +"/1"}
+            />
+          ))}
+          
+        </Carousel>
+        <Title>Produtos</Title>
+        <Carousel
+          infinite
+          slidesPerPage={4}
+          arrowLeft={<FiChevronLeft size={60} color="#0E346A" />}
+          arrowRight={<FiChevronRight size={60} color="#0E346A" />}
+          addArrowClickHandler
+          breakpoints={{
+            640: {
+              slidesPerPage: 1,
+              arrows: false,
+            },
+            900: {
+              slidesPerPage: 2,
+              arrows: false,
+            },
+          }}
+        >
+          {productsTypes.map(productsType =>(
+            <CategoriesCard
+              icon={IoIosIceCream}
+              title={productsType.nome}
+              link={"/categories/produtos/"+ productsType.nome +"/1"}
+            />
+          ))
+
+          }
+          
+        </Carousel>
         <Title>Sobre a UniJobs</Title>
         <Imagem src={aboutUnijobs} alt="Sobre a UniJobs" />
       </Container>
