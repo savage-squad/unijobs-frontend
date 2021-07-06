@@ -6,6 +6,7 @@ export interface IItem {
   miniatura?: string;
   description: string;
   descricao?: string;
+  tipoItem?: string;
   price: string;
   preco?: number;
   type: string;

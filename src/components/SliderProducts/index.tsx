@@ -57,7 +57,7 @@ const Slider: React.FC = () => {
             </ProductHeader>
             <ProductDescription>{product.descricao}</ProductDescription>
             <ProductFooter>
-              <ProductLink to={`/item/${product.id}`}>
+              <ProductLink to={`/item/${product.tipoItem}/${product.id}`}>
                 + informações
               </ProductLink>
               <ProductPrice>R$ {product.preco}</ProductPrice>
