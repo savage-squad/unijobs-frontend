@@ -25,15 +25,21 @@ import Button from '../../components/Button';
 import Loading from '../../components/Loading';
 
 interface ItemProps {
-  title: string;
-  description: string;
-  item_type: string;
-  item_category: string;
-  price: number;
-  thumbnail_id: number;
-  thumbnail_url: string;
-  image_id: number;
-  image_url: string;
+  // title: string;
+  titulo?: string;
+  miniatura?: string;
+  descricao?: string;
+  preco?: number;
+  prazo?: number;
+  id_tipo_produto?: number;
+  // description: string;
+  // item_type: string;
+  // item_category: string;
+  // price: number;
+  // thumbnail_id: number;
+  // thumbnail_url: string;
+  // image_id: number;
+  // image_url: string;
 }
 
 const RegisterProduct: React.FC = () => {
@@ -42,8 +48,8 @@ const RegisterProduct: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const [currency, setCurrency] = useState<string>('');
   const [loading, setLoading] = useState(false);
-  const [img1, setImg1] = useState<File>({} as File);
-  const [img2, setImg2] = useState<File>({} as File);
+  // const [img1, setImg1] = useState<File>({} as File);
+  // const [img2, setImg2] = useState<File>({} as File);
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
 
@@ -51,31 +57,37 @@ const RegisterProduct: React.FC = () => {
     async (data: ItemProps) => {
       console.log(data);
 
-      const imagem1 = new FormData();
-      imagem1.append('file', img1);
-      const apiImg1 = await api.post('/files', imagem1);
+      // const imagem1 = new FormData();
+      // imagem1.append('file', img1);
+      // const apiImg1 = await api.post('/files', imagem1);
 
-      const imagem2 = new FormData();
-      imagem2.append('file', img2);
-      const apiImg2 = await api.post('/files', imagem2);
+      // const imagem2 = new FormData();
+      // imagem2.append('file', img2);
+      // const apiImg2 = await api.post('/files', imagem2);
 
       const item = {
-        title: data.title,
-        description: data.description,
-        item_type: data.item_type,
-        item_category: data.item_category,
-        price: data.price,
-        thumbnail_id: apiImg1.data.id,
-        thumbnail_url: apiImg1.data.url,
-        image_id: apiImg2.data.id,
-        image_url: apiImg2.data.url,
+        // title: data.title,
+        titulo: data.titulo,
+        // description: data.description,
+        descricao: data.descricao,
+        // item_type: data.item_type,
+        // item_category: data.item_category,
+        id_tipo_produto: data.id_tipo_produto,
+        // price: data.price,
+        preco: data.preco,
+        prazo: data.prazo,
+        miniatura: data.miniatura,
+        // thumbnail_id: apiImg1.data.id,
+        // thumbnail_url: apiImg1.data.url,
+        // image_id: apiImg2.data.id,
+        // image_url: apiImg2.data.url
       };
 
       if (!item) {
         setLoading(true);
       }
 
-      await api.post('/items', item);
+      await api.post('/produtos', item);
       setLoading(false);
       history.push('/');
       addToast({
@@ -84,20 +96,20 @@ const RegisterProduct: React.FC = () => {
         type: 'sucess',
       });
     },
-    [addToast, history, img1, img2],
+    [addToast, history], //, img1, img2
   );
 
-  const handleImage1 = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setImg1(event.target.files[0]);
-    }
-  }, []);
+  // const handleImage1 = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.files) {
+  //     setImg1(event.target.files[0]);
+  //   }
+  // }, []);
 
-  const handleImage2 = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setImg2(event.target.files[0]);
-    }
-  }, []);
+  // const handleImage2 = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.files) {
+  //     setImg2(event.target.files[0]);
+  //   }
+  // }, []);
 
   const handleCurrencyMoney = useCallback(async (money: string) => {
     const moneyFormated = Number(money.replace(/[^0-9.-]+/g, ''));
@@ -108,14 +120,19 @@ const RegisterProduct: React.FC = () => {
   const handleSubmit = useCallback(
     async (data: ItemProps) => {
       setLoading(true);
-      data.price = await handleCurrencyMoney(currency);
+      data.preco = await handleCurrencyMoney(currency);
       try {
         const schema = Yup.object().shape({
-          title: Yup.string().required(),
-          description: Yup.string().required(),
-          price: Yup.number().required(),
-          item_type: Yup.string().required(),
-          item_category: Yup.string().required(),
+          // title: Yup.string().required(),
+          titulo: Yup.string().required(),
+          // description: Yup.string().required(),
+          descricao: Yup.string().required(),
+          // price: Yup.number().required(),
+          preco: Yup.string().required(),
+          prazo: Yup.string().required(),
+          // item_type: Yup.string().required(),
+          id_tipo_produto: Yup.string().required(),
+          // item_category: Yup.string().required(),
         });
 
         await schema.validate(data, {
@@ -152,13 +169,13 @@ const RegisterProduct: React.FC = () => {
             <Title>Adicionar Produto</Title>
             <Formbox>
               <Form onSubmit={handleSubmit} ref={formRef}>
-                <Input name="title" placeholder="Titulo" type="text" />
-                <Input name="description" placeholder="Descrição" type="text" />
-                {/* <Input name="price" type="number" placeholder="Preço" /> */}
+                <Input name="titulo" placeholder="Titulo" type="text" />
+                <Input name="descricao" placeholder="Descrição" type="text" />
+                <Input name="prazo" type="number" placeholder="Prazo" />
                 <PrecoArea isFilled={isFilled} isFocused={isFocused}>
                   <span>Preço</span>
                   <CurrencyInput
-                    name="price"
+                    name="preco"
                     prefix="R$"
                     value={currency}
                     onFocus={handleInputFocus}
@@ -167,42 +184,42 @@ const RegisterProduct: React.FC = () => {
                       setCurrency(event.target.value)}
                   />
                 </PrecoArea>
-                <Select
+                {/* <Select
                   name="item_type"
                   options={[
                     { value: 'service', label: 'Serviço' },
                     { value: 'product', label: 'Produto' },
                   ]}
                   label="Tipo do item"
-                />
+                /> */}
                 <Select
-                  name="item_category"
+                  name="id_tipo_produto"
                   options={[
-                    { value: 'gastronomia', label: 'Gastronomia' },
-                    { value: 'aula-particular', label: 'Aula Particular' },
-                    { value: 'roupas-e-calcados', label: 'Roupas e calçados' },
-                    { value: 'acessorios', label: 'Acessórios' },
-                    { value: 'artesanato', label: 'Artesanato' },
+                    { value: '1', label: 'Gastronomia' },
+                    { value: '2', label: 'Aula Particular' },
+                    { value: '3', label: 'Roupas e calçados' },
+                    { value: '4', label: 'Acessórios' },
+                    { value: '5', label: 'Artesanato' },
                     {
-                      value: 'assistencia-tecnica',
+                      value: '6',
                       label: 'Assitencia técnica',
                     },
-                    { value: 'outros', label: 'Outros' },
+                    { value: '7', label: 'Outros' },
                   ]}
                   label="Categoria do item"
                 />
-                <Input
-                  name="thumbnail"
+                {/* <Input
+                  name="miniatura"
                   type="file"
                   onChange={handleImage1}
                   label="Thumbnail"
-                />
-                <Input
+                /> */}
+                {/* <Input
                   name="image"
                   type="file"
                   onChange={handleImage2}
                   label="Imagem destaque"
-                />
+                /> */}
                 <Buttons>
                   <Button type="submit">Salvar</Button>
                   <Button type="button">Cancelar</Button>
