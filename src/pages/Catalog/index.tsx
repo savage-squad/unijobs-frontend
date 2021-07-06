@@ -23,7 +23,9 @@ import ScrollToTopOnMount from '../../utils/ScrollToTopOnMount';
 
 interface RepositoryParams {
   page: string;
-  itemType: string;
+  itemType: string;  
+  categorie: string;
+  categorieId: string;
 }
 
 const Catalog: React.FC = () => {
@@ -33,22 +35,13 @@ const Catalog: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const imageNotFound: string = "https://imgur.com/sM05PIm";
-
-  const { itemType } = params;
-
-  function splitString(stringToSplit: string, separator: string) {
-    const arrayOfStrings = stringToSplit.split(separator);
-    return arrayOfStrings;
-  }
-
+  console.log(params)
   useEffect(() => {
     setLoading(true);
-    if (itemType) {
-      const separetedCategorie = splitString(itemType, '/');
-      if (separetedCategorie.length === 2) {
+      if (params.categorie) {
         api
           .get(
-            `/${separetedCategorie[0]}/${separetedCategorie[1]}/${params.page}`,
+            `/${params.categorie}/${params.categorieId}/${params.itemType}?page=${params.page}&size=5`,
           )
           .then(response => {
             setProducts(response.data);
@@ -59,7 +52,7 @@ const Catalog: React.FC = () => {
         setLoading(false);
       } else {
         api
-          .get(`/${separetedCategorie[0]}?page=${params.page}&size=5`)
+          .get(`/${params.itemType}?page=${params.page}&size=5`)
           .then(response => {
             setProducts(response.data.content);
           })
@@ -68,21 +61,10 @@ const Catalog: React.FC = () => {
           });
         setLoading(false);
       }
-    } else {
-      api
-        .get(`/items/${params.page}`)
-        .then(response => {
-          setProducts(response.data.data);
-        })
-        .catch(e => {
-          console.log(e);
-        });
-      setLoading(false);
-    }
     const nextPage = parseInt(params.page) + 1;
     setNextPage(nextPage.toString());
     setLoading(false);
-  }, [itemType, params.itemType, params.page]);
+  }, [ params.itemType, params.page]);
 
   const history = useHistory();
 
@@ -95,7 +77,7 @@ const Catalog: React.FC = () => {
         {products && products.map(product => {
           return (
             <Content key={product.id}>
-              <Link to={`/item/${product.id}`} key={product.id}>
+              <Link to={`/item/${params.itemType}/${product.id}`} key={product.id}>
                 <img
                   src={product.miniatura?.includes("http")? product.miniatura : imageNotFound}
                   alt="Produto"

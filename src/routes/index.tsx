@@ -18,13 +18,12 @@ import HowItWorks from '../pages/HowItWorks';
 const Routes: React.FC = () => (
   <Switch>
     <Route path="/" exact component={LandingPage} />
-    <Route path="/item/:id+" component={Product} />
-    <Route path="/catalog/:page+" component={Catalog} />
-    <Route path="/categories/:itemType+/:page+" component={Catalog} />
+    <Route path="/item/:itemType+/:id+" component={Product} />
     <Route
-      path="/categories/:itemType+/:categorie+/:page+"
+      path="/categories/:categorie+/:categorieId+/:itemType+/:page+"
       component={Catalog}
     />
+    <Route path="/categories/:itemType+/:page+" component={Catalog} />
     <Route path="/registeruser" component={RegisterUser} />
     <Route path="/login" component={Login} />
     <PrivateRoutes path="/register" component={RegisterProduct} />

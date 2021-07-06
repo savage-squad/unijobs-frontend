@@ -48,7 +48,7 @@ const LandingPage: React.FC = () => {
       <HeaderSlider />
       <Container>
         <Title>
-          Adicionados recentemente <Link to="/catalog/1">Ver tudo</Link>
+          Adicionados recentemente
         </Title>
         <SliderProducts />
         <Title>Navegar por tipo de item</Title>
@@ -87,7 +87,7 @@ const LandingPage: React.FC = () => {
             <CategoriesCard
               icon={IoIosIceCream}
               title={servicesType.nome}
-              link={"/categories/tiposServicos/"+ servicesType.id_tipo_servico +"/servicos"}
+              link={"/categories/tiposServicos/"+ servicesType.id_tipo_servico +"/servicos/0"}
             />
           ))}
           
@@ -114,7 +114,7 @@ const LandingPage: React.FC = () => {
             <CategoriesCard
               icon={IoIosIceCream}
               title={productsType.nome}
-              link={"/categories/tipos_produtos/"+ productsType.id_tipo_produto +"/produtos"}
+              link={"/categories/tipos_produtos/"+ productsType.id_tipo_produto +"/produtos/0"}
             />
           ))
 

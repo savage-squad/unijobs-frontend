@@ -21,6 +21,7 @@ import ScrollToTopOnMount from '../../utils/ScrollToTopOnMount';
 
 interface RepositoryParams {
   id: string;
+  itemType: string;
 }
 
 const Product: React.FC = () => {
@@ -28,11 +29,12 @@ const Product: React.FC = () => {
   const [post, setPost] = useState<IItem>();
   const { params } = useRouteMatch<RepositoryParams>();
   const imageNotFound: string = "https://i.imgur.com/sM05PIm.png";
-
+  
   useEffect(() => {
     setLoading(true);
+
     api
-      .get(`/produtos/${params.id}`)
+      .get(`/${params.itemType}/${params.id}`)
       .then(response => {
         console.log(response.data);
         setPost(response.data);
