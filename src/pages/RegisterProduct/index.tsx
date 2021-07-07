@@ -23,6 +23,9 @@ import Select from '../../components/Select';
 import Sidebar from '../../components/Sidebar';
 import Button from '../../components/Button';
 import Loading from '../../components/Loading';
+import { useEffect } from 'react';
+import product from '../../services/product';
+import { useAuth } from '../../hooks/auth';
 
 interface ItemProps {
   // title: string;
@@ -31,7 +34,7 @@ interface ItemProps {
   descricao?: string;
   preco?: number;
   prazo?: number;
-  id_tipo_produto?: number;
+  id_tipo_produto: number;
   // description: string;
   // item_type: string;
   // item_category: string;
@@ -42,7 +45,14 @@ interface ItemProps {
   // image_url: string;
 }
 
+interface TypeProductProps {
+  value: number;
+  label: string;
+}
+
 const RegisterProduct: React.FC = () => {
+  const ctx = useAuth();
+  console.log(ctx);
   const { addToast } = useToast();
   const history = useHistory();
   const formRef = useRef<FormHandles>(null);
@@ -90,6 +100,7 @@ const RegisterProduct: React.FC = () => {
       await api.post('/produtos', item);
       setLoading(false);
       history.push('/');
+      
       addToast({
         title: 'Produto criado',
         description: 'Seu produto foi criado com sucesso!',
@@ -132,7 +143,7 @@ const RegisterProduct: React.FC = () => {
           prazo: Yup.string().required(),
           // item_type: Yup.string().required(),
           id_tipo_produto: Yup.string().required(),
-          // item_category: Yup.string().required(),
+          miniatura: Yup.string().required(),
         });
 
         await schema.validate(data, {
@@ -144,6 +155,7 @@ const RegisterProduct: React.FC = () => {
         setLoading(false);
         console.log(err);
       }
+      
     },
     [handleCreateProduct, handleCurrencyMoney, currency],
   );
@@ -155,6 +167,23 @@ const RegisterProduct: React.FC = () => {
   const handleInputBlur = useCallback(() => {
     setIsFocused(false);
     setIsFilled(true);
+  }, []);
+  
+  const [productTypes, setProductsTypes] = useState<TypeProductProps[]>([]);
+  useEffect(() => {
+    api.get("/tipos_produtos")
+    .then(response => {
+      const arrayLabelNome = response.data.map((item:any) => ({
+          value:item.id_tipo_produto,
+          label:item.nome
+        })
+      );
+      setProductsTypes(arrayLabelNome); 
+    })
+    .catch(error => {
+      console.log(error);
+    });
+    
   }, []);
 
   return (
@@ -171,7 +200,7 @@ const RegisterProduct: React.FC = () => {
               <Form onSubmit={handleSubmit} ref={formRef}>
                 <Input name="titulo" placeholder="Titulo" type="text" />
                 <Input name="descricao" placeholder="Descrição" type="text" />
-                <Input name="prazo" type="number" placeholder="Prazo" />
+                <Input name="prazo" type="number" placeholder="Prazo de entrega (Em dias)" />
                 <PrecoArea isFilled={isFilled} isFocused={isFocused}>
                   <span>Preço</span>
                   <CurrencyInput
@@ -184,42 +213,16 @@ const RegisterProduct: React.FC = () => {
                       setCurrency(event.target.value)}
                   />
                 </PrecoArea>
-                {/* <Select
-                  name="item_type"
-                  options={[
-                    { value: 'service', label: 'Serviço' },
-                    { value: 'product', label: 'Produto' },
-                  ]}
-                  label="Tipo do item"
-                /> */}
                 <Select
                   name="id_tipo_produto"
-                  options={[
-                    { value: '1', label: 'Gastronomia' },
-                    { value: '2', label: 'Aula Particular' },
-                    { value: '3', label: 'Roupas e calçados' },
-                    { value: '4', label: 'Acessórios' },
-                    { value: '5', label: 'Artesanato' },
-                    {
-                      value: '6',
-                      label: 'Assitencia técnica',
-                    },
-                    { value: '7', label: 'Outros' },
-                  ]}
+                  options={productTypes}
                   label="Categoria do item"
                 />
-                {/* <Input
+                <Input
                   name="miniatura"
                   type="file"
-                  onChange={handleImage1}
                   label="Thumbnail"
-                /> */}
-                {/* <Input
-                  name="image"
-                  type="file"
-                  onChange={handleImage2}
-                  label="Imagem destaque"
-                /> */}
+                />
                 <Buttons>
                   <Button type="submit">Salvar</Button>
                   <Button type="button">Cancelar</Button>
