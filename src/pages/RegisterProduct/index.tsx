@@ -26,6 +26,7 @@ import Loading from '../../components/Loading';
 import { useEffect } from 'react';
 import product from '../../services/product';
 import { useAuth } from '../../hooks/auth';
+import fileApi from '../../services/fileApi';
 
 interface ItemProps {
   // title: string;
@@ -49,32 +50,31 @@ interface TypeProductProps {
   value: number;
   label: string;
 }
+interface FreeImageItem {
+  image: {url : string}
+}
 
 const RegisterProduct: React.FC = () => {
-  const ctx = useAuth();
-  console.log(ctx);
   const { addToast } = useToast();
   const history = useHistory();
   const formRef = useRef<FormHandles>(null);
   const [currency, setCurrency] = useState<string>('');
   const [loading, setLoading] = useState(false);
-  // const [img1, setImg1] = useState<File>({} as File);
+  const [img1, setImg1] = useState({} as File);
   // const [img2, setImg2] = useState<File>({} as File);
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
+  const ctx = useAuth();
 
   const handleCreateProduct = useCallback(
     async (data: ItemProps) => {
-      console.log(data);
-
-      // const imagem1 = new FormData();
-      // imagem1.append('file', img1);
-      // const apiImg1 = await api.post('/files', imagem1);
+      const imagem1 = new FormData();
+      imagem1.append('file', img1);
 
       // const imagem2 = new FormData();
       // imagem2.append('file', img2);
       // const apiImg2 = await api.post('/files', imagem2);
-
+      console.log(img1);
       const item = {
         // title: data.title,
         titulo: data.titulo,
@@ -86,7 +86,9 @@ const RegisterProduct: React.FC = () => {
         // price: data.price,
         preco: data.preco,
         prazo: data.prazo,
+        // miniatura: img1,
         miniatura: data.miniatura,
+        id_usuario: ctx.user?.id,
         // thumbnail_id: apiImg1.data.id,
         // thumbnail_url: apiImg1.data.url,
         // image_id: apiImg2.data.id,
@@ -110,11 +112,11 @@ const RegisterProduct: React.FC = () => {
     [addToast, history], //, img1, img2
   );
 
-  // const handleImage1 = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-  //   if (event.target.files) {
-  //     setImg1(event.target.files[0]);
-  //   }
-  // }, []);
+  const handleImage1 = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setImg1(event.target.files[0]);
+    }
+  }, []);
 
   // const handleImage2 = useCallback((event: ChangeEvent<HTMLInputElement>) => {
   //   if (event.target.files) {
@@ -222,6 +224,7 @@ const RegisterProduct: React.FC = () => {
                   name="miniatura"
                   type="file"
                   label="Thumbnail"
+                  // onChange={handleImage1}
                 />
                 <Buttons>
                   <Button type="submit">Salvar</Button>

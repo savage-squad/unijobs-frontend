@@ -4,7 +4,7 @@ import jwt_decode from "jwt-decode";
 
 
 interface User{
-  id_usuario:number;
+  id:number;
   nome:string;
 }
 interface AuthState {
