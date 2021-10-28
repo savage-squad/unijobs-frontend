@@ -3,12 +3,12 @@ import { shade } from 'polished';
 
 export const Container = styled.button`
   text-align: center;
-  background: #51AB0E;
+  background: #51ab0e;
   height: 50px;
   border-radius: 10px;
   border: 0;
   padding: 0 16px;
-  color: #FFFFFF;
+  color: #ffffff;
   width: 150px;
   margin-right: 20px;
   margin-top: 15px;
@@ -17,13 +17,13 @@ export const Container = styled.button`
   font-style: normal;
   font-weight: bold;
   font-size: 16px;
-  line-height: 19px; 
-  
+  line-height: 19px;
+
   &:hover {
     background: ${shade(0.2, '#51AB0E')};
   }
 
-  @media(max-width:509px){
+  @media (max-width: 509px) {
     width: 100%;
     margin-right: 0;
   }

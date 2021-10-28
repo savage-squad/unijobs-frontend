@@ -32,7 +32,6 @@ export const Title = styled.h2`
     &:hover {
       color: #65ad2f;
     }
-
   }
 
   @media (max-width: 450px) {

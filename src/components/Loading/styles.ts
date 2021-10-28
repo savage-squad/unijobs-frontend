@@ -6,7 +6,7 @@ export const Mask = styled.section`
   left: 0;
   bottom: 0;
   right: 0;
-  background: #FFF;
+  background: #fff;
   width: 100vw;
   height: 100vh;
   z-index: 999;
@@ -17,6 +17,6 @@ export const Mask = styled.section`
 `;
 
 export const Spinner = styled.section`
-    color: #51AB0E;
-    position: fixed;
-`
+  color: #51ab0e;
+  position: fixed;
+`;

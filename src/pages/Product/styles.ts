@@ -60,7 +60,7 @@ export const InfoContact = styled.div`
     font-style: italic;
     font-weight: 400;
     font-size: 12px;
-    color: #888
+    color: #888;
   }
 
   @media (max-width: 700px) {
@@ -130,7 +130,7 @@ export const Buttons = styled.div`
     background: #65ad2f;
 
     &:hover {
-      opacity: .9;
+      opacity: 0.9;
       transition: opacity 400ms ease;
     }
   }

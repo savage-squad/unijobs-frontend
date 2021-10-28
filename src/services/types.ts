@@ -65,8 +65,8 @@ interface Item {
 }
 
 export interface ITypes {
-  id  : string;
-  id_tipo_servico  : string;
-  id_tipo_produto : string;
-  nome  : string;
+  id: string;
+  id_tipo_servico: string;
+  id_tipo_produto: string;
+  nome: string;
 }

@@ -3,7 +3,7 @@ import { shade } from 'polished';
 
 export const ContainerRoot = styled.div`
   margin: 0 auto;
-  background: #FBFBFB;
+  background: #fbfbfb;
 
   display: grid;
   box-sizing: border-box;
@@ -52,16 +52,16 @@ export const FormGrid = styled.div`
 
 export const Formbox = styled.div`
   width: 100%;
-  background: #FFFFFF;
-  border: 0.8px solid #DDDDDD;
+  background: #ffffff;
+  border: 0.8px solid #dddddd;
   box-shadow: 2px 2px 10px rgba(34, 34, 34, 0.05);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
 
   legend {
-    background: #F5F6F8;
-    border-bottom: 0.8px solid #DDDDDD;
+    background: #f5f6f8;
+    border-bottom: 0.8px solid #dddddd;
     padding: 25px 30px;
 
     font-style: normal;
@@ -90,8 +90,8 @@ export const Buttons = styled.button`
   text-align: left;
 
   > :last-child {
-    background: #F5F6F7;
-    border: 1px solid #CCD0D5;
+    background: #f5f6f7;
+    border: 1px solid #ccd0d5;
     color: #767676;
     &:hover {
       background: ${shade(0.2, '#CCD0D5')};

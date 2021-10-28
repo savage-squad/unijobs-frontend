@@ -28,8 +28,8 @@ const Product: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [post, setPost] = useState<IItem>();
   const { params } = useRouteMatch<RepositoryParams>();
-  const imageNotFound: string = "https://i.imgur.com/sM05PIm.png";
-  
+  const imageNotFound = 'https://i.imgur.com/sM05PIm.png';
+
   useEffect(() => {
     setLoading(true);
 
@@ -39,7 +39,7 @@ const Product: React.FC = () => {
         setPost(response.data);
       })
       .catch(e => {
-        throw e
+        throw e;
       });
     setLoading(false);
   }, [params.id]);
@@ -47,10 +47,10 @@ const Product: React.FC = () => {
   // Remove tudo exceto números
   const contactLink = post?.contato?.replace(/[^\d]+/g, '');
 
-  function maskPhone(v:string = ""){
-    v=v.replace(/\D/g,"");             //Remove tudo o que não é dígito
-    v=v.replace(/^(\d{2})(\d)/g,"($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
-    v=v.replace(/(\d)(\d{4})$/,"$1-$2");    //Coloca hífen entre o quarto e o quinto dígitos
+  function maskPhone(v = '') {
+    v = v.replace(/\D/g, ''); //Remove tudo o que não é dígito
+    v = v.replace(/^(\d{2})(\d)/g, '($1) $2'); //Coloca parênteses em volta dos dois primeiros dígitos
+    v = v.replace(/(\d)(\d{4})$/, '$1-$2'); //Coloca hífen entre o quarto e o quinto dígitos
     return v;
   }
 
@@ -63,14 +63,18 @@ const Product: React.FC = () => {
         <Item>
           <Images>
             <img
-              src={post?.miniatura?.includes("http")? post.miniatura : imageNotFound}
+              src={
+                post?.miniatura?.includes('http')
+                  ? post.miniatura
+                  : imageNotFound
+              }
               alt={post?.title}
             />
           </Images>
 
           <InfoContact>
             <p>
-             Por: <strong>{post?.anunciante}</strong>
+              Por: <strong>{post?.anunciante}</strong>
             </p>
             <h1>{post?.titulo}</h1>
 

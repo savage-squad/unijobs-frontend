@@ -1,11 +1,10 @@
 import React, { createContext, useCallback, useContext, useState } from 'react';
 import api from '../services/api';
-import jwt_decode from "jwt-decode";
+import jwt_decode from 'jwt-decode';
 
-
-interface User{
-  id:number;
-  nome:string;
+interface User {
+  id: number;
+  nome: string;
 }
 interface AuthState {
   token: string;
@@ -31,12 +30,12 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>(() => {
     const token = localStorage.getItem('@UniJobs:token');
-    
+
     // const refreshToken = localStorage.getItem('@UniJobs:refreshToken');
     if (token) {
       api.defaults.headers.authorization = `Bearer ${token}`;
-      const decoded:any = jwt_decode(token);
-      const user:any = {id:decoded.id_usuario, nome:decoded.nome}
+      const decoded: any = jwt_decode(token);
+      const user: any = { id: decoded.id_usuario, nome: decoded.nome };
       return { token, user };
     }
 
@@ -49,12 +48,12 @@ const AuthProvider: React.FC = ({ children }) => {
       password,
     });
 
-    const  token  = response.data.token;
-    const decoded:any = jwt_decode(token);
-    const user:any = {id:decoded.id_usuario, nome:decoded.nome}
+    const token = response.data.token;
+    const decoded: any = jwt_decode(token);
+    const user: any = { id: decoded.id_usuario, nome: decoded.nome };
     localStorage.setItem('@UniJobs:token', token);
 
-    setData( {token, user} );
+    setData({ token, user });
   }, []);
 
   const signOut = useCallback(() => {

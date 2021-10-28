@@ -32,7 +32,7 @@ export const ContainerForm = styled.section`
     border-radius: 0px 20px 20px 0px;
     height: calc(100vh - 120px);
     overflow-y: auto;
-    scroll-behavior:auto;
+    scroll-behavior: auto;
   }
 `;
 
