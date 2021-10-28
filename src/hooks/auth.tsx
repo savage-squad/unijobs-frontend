@@ -52,7 +52,6 @@ const AuthProvider: React.FC = ({ children }) => {
     const  token  = response.data.token;
     const decoded:any = jwt_decode(token);
     const user:any = {id:decoded.id_usuario, nome:decoded.nome}
-    console.log(user);
     localStorage.setItem('@UniJobs:token', token);
 
     setData( {token, user} );

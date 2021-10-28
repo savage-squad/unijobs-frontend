@@ -17,11 +17,10 @@ const Slider: React.FC = () => {
     api
       .get('/items/1')
       .then(response => {
-        console.log(response);
         setProducts(response.data.data);
       })
       .catch(e => {
-        console.log(e);
+        console.error(e);
       });
   }, []);
 

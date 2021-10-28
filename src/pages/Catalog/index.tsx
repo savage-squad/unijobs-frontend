@@ -27,7 +27,6 @@ const Catalog: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const imageNotFound: string = "https://imgur.com/sM05PIm";
-  console.log(params)
   useEffect(() => {
     setLoading(true);
       if (params.categorie) {
@@ -39,7 +38,7 @@ const Catalog: React.FC = () => {
             setProducts(response.data);
           })
           .catch(e => {
-            console.log(e);
+            throw e
           });
         setLoading(false);
       } else {
@@ -49,7 +48,7 @@ const Catalog: React.FC = () => {
             setProducts(response.data.content);
           })
           .catch(e => {
-            console.log(e);
+            throw e
           });
         setLoading(false);
       }

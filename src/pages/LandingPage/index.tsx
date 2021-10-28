@@ -33,11 +33,9 @@ const LandingPage: React.FC = () => {
 
   useEffect(() => {
     api.get('/tiposServicos').then(response => {
-      console.log(response.data);
       setServicesTypes(response.data);
     });
     api.get('/tipos_produtos').then(response => {
-      console.log(response.data);
       setProductsTypes(response.data);
     });
   }, []);
