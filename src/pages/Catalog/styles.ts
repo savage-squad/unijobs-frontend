@@ -118,15 +118,15 @@ export const Pages = styled.div`
   display: flex;
   justify-content: center;
 
-  button{
+  button {
     background: none;
     border: none;
   }
 
-  svg{
+  svg {
     color: #0e346a;
 
-    &:hover{
+    &:hover {
       color: #65ad2f;
     }
   }

@@ -2,6 +2,13 @@
   "name": "unijobs-typscript",
   "version": "0.1.1",
   "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx --cache --max-warnings 0 --fix",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
   "dependencies": {
     "@brainhubeu/react-carousel": "^1.19.14",
     "@houdiniproject/react-i18n-currency-input": "^2.0.0-pre3",
@@ -37,12 +44,6 @@
     "typescript": "~3.7.2",
     "uuidv4": "^6.2.3",
     "yup": "^0.29.3"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
   },
   "browserslist": {
     "production": [

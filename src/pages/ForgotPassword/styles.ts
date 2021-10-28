@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { shade } from 'polished';
 
 export const Container = styled.section`
-  background: #FBFBFB;
+  background: #fbfbfb;
   display: flex;
   justify-content: space-between;
   max-width: 1700px;
@@ -19,7 +19,7 @@ export const ContainerForm = styled.section`
   flex-direction: column;
   width: 40vw;
   height: 100vh;
-  background: #FFF;
+  background: #fff;
   padding: 40px;
   z-index: 1;
   @media only screen and (max-width: 800px) {
@@ -53,7 +53,7 @@ export const FormLinks = styled.section`
   display: flex;
   justify-content: flex-start;
   margin-bottom: 20px;
-`
+`;
 
 export const LinkForm = styled(Link)`
   display: flex;
@@ -61,11 +61,11 @@ export const LinkForm = styled(Link)`
   height: 60px;
   justify-content: center;
   align-items: center;
-  color: #51AB0E;
+  color: #51ab0e;
   text-decoration: none;
   box-sizing: border-box;
   transition: background 200ms;
-  &:hover{
+  &:hover {
     background: ${shade(0.04, '#FFF')};
   }
 `;
@@ -77,7 +77,7 @@ export const BackLink = styled(Link)`
   margin: 30px auto;
   justify-content: center;
   flex: 1;
-  &:hover{
+  &:hover {
     text-decoration: underline;
   }
 `;
@@ -85,11 +85,11 @@ export const BackLink = styled(Link)`
 export const Button = styled.button`
   align-items: center;
   text-align: center;
-  background: #51AB0E;
+  background: #51ab0e;
   height: 50px;
   border-radius: 10px;
   border: 0;
-  color: #FFFFFF;
+  color: #ffffff;
   width: 100%;
   transition: background-color 0.2s;
   font-style: normal;
@@ -102,13 +102,13 @@ export const Button = styled.button`
 
 export const Select = styled.select`
   width: 200px;
-  height:42px;
+  height: 42px;
   padding: 8px 12px;
   margin-left: 27px;
-  vertical-align:top;
+  vertical-align: top;
 
-  background: #FFFFFF;
-  border: 1px solid #BABABA;
+  background: #ffffff;
+  border: 1px solid #bababa;
   box-sizing: border-box;
   border-radius: 5px;
 

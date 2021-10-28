@@ -20,14 +20,14 @@ export const Card = styled.div`
   border-radius: 20px;
   padding: 40px;
   margin-bottom: 20px;
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 
   &:last-child {
     margin-bottom: 30px;
   }
 
   &:hover {
-  transform: scale(1.03);
+    transform: scale(1.03);
     box-shadow: rgba(20, 20, 20, 0.4) 3px 6px 20px;
   }
 `;
@@ -69,11 +69,11 @@ export const Support = styled.div`
   }
 
   a:hover {
-    color: #65AD2F;
+    color: #65ad2f;
   }
 `;
 
 export const SupportTitle = styled.h3`
   ${titleCss}
   font-size: 1.4em;
-`
+`;

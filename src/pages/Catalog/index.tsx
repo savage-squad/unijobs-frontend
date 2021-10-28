@@ -15,7 +15,7 @@ import ScrollToTopOnMount from '../../utils/ScrollToTopOnMount';
 
 interface RepositoryParams {
   page: string;
-  itemType: string;  
+  itemType: string;
   categorie: string;
   categorieId: string;
 }
@@ -26,36 +26,36 @@ const Catalog: React.FC = () => {
   const { params } = useRouteMatch<RepositoryParams>();
   const [loading, setLoading] = useState(false);
 
-  const imageNotFound: string = "https://imgur.com/sM05PIm";
+  const imageNotFound = 'https://imgur.com/sM05PIm';
   useEffect(() => {
     setLoading(true);
-      if (params.categorie) {
-        api
-          .get(
-            `/${params.categorie}/${params.categorieId}/${params.itemType}?page=${params.page}&size=5`,
-          )
-          .then(response => {
-            setProducts(response.data);
-          })
-          .catch(e => {
-            throw e
-          });
-        setLoading(false);
-      } else {
-        api
-          .get(`/${params.itemType}?page=${params.page}&size=5`)
-          .then(response => {
-            setProducts(response.data.content);
-          })
-          .catch(e => {
-            throw e
-          });
-        setLoading(false);
-      }
+    if (params.categorie) {
+      api
+        .get(
+          `/${params.categorie}/${params.categorieId}/${params.itemType}?page=${params.page}&size=5`,
+        )
+        .then(response => {
+          setProducts(response.data);
+        })
+        .catch(e => {
+          throw e;
+        });
+      setLoading(false);
+    } else {
+      api
+        .get(`/${params.itemType}?page=${params.page}&size=5`)
+        .then(response => {
+          setProducts(response.data.content);
+        })
+        .catch(e => {
+          throw e;
+        });
+      setLoading(false);
+    }
     const nextPage = parseInt(params.page) + 1;
     setNextPage(nextPage.toString());
     setLoading(false);
-  }, [ params.itemType, params.page]);
+  }, [params.itemType, params.page]);
 
   const history = useHistory();
 
@@ -65,24 +65,32 @@ const Catalog: React.FC = () => {
       <Loading loading={loading} />
       <Banner backIcon />
       <Container>
-        {products && products.map(product => {
-          return (
-            <Content key={product.id}>
-              <Link to={`/item/${params.itemType}/${product.id}`} key={product.id}>
-                <img
-                  src={product.miniatura?.includes("http")? product.miniatura : imageNotFound}
-                  alt="Produto"
-                />
-                <Informations>
-                  <span>{product.type}</span>
-                  <h1>{product.titulo}</h1>
-                  <p>{product.descricao}</p>
-                </Informations>
-                <strong>R$ {product.preco}</strong>
-              </Link>
-            </Content>
-          );
-        })}
+        {products &&
+          products.map(product => {
+            return (
+              <Content key={product.id}>
+                <Link
+                  to={`/item/${params.itemType}/${product.id}`}
+                  key={product.id}
+                >
+                  <img
+                    src={
+                      product.miniatura?.includes('http')
+                        ? product.miniatura
+                        : imageNotFound
+                    }
+                    alt="Produto"
+                  />
+                  <Informations>
+                    <span>{product.type}</span>
+                    <h1>{product.titulo}</h1>
+                    <p>{product.descricao}</p>
+                  </Informations>
+                  <strong>R$ {product.preco}</strong>
+                </Link>
+              </Content>
+            );
+          })}
       </Container>
       <Pages>
         <button type="button" onClick={history.goBack}>

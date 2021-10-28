@@ -52,7 +52,7 @@ interface TypeProductProps {
 }
 
 interface FreeImageItem {
-  image: {url : string}
+  image: { url: string };
 }
 
 const RegisterProduct: React.FC = () => {
@@ -82,7 +82,7 @@ const RegisterProduct: React.FC = () => {
 
     Object.keys(item).forEach(key => {
       //@ts-ignore
-      formData.append(key, item[key])
+      formData.append(key, item[key]);
     });
 
     if (!item) {
@@ -92,18 +92,18 @@ const RegisterProduct: React.FC = () => {
     await api.request({
       url: '/produtos',
       method: 'POST',
-      data: formData
+      data: formData,
     });
 
     setLoading(false);
     history.push('/');
-    
+
     addToast({
       title: 'Produto criado',
       description: 'Seu produto foi criado com sucesso!',
       type: 'sucess',
     });
-  }
+  };
 
   const handleImage1 = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -135,9 +135,9 @@ const RegisterProduct: React.FC = () => {
 
       handleCreateProduct(data);
     } catch (err) {
-      throw err
+      throw err;
     }
-  }
+  };
 
   const handleInputFocus = useCallback(() => {
     setIsFocused(true);
@@ -147,22 +147,21 @@ const RegisterProduct: React.FC = () => {
     setIsFocused(false);
     setIsFilled(true);
   }, []);
-  
+
   const [productTypes, setProductsTypes] = useState<TypeProductProps[]>([]);
   useEffect(() => {
-    api.get("/tipos_produtos")
-    .then(response => {
-      const arrayLabelNome = response.data.map((item:any) => ({
-          value:item.id_tipo_produto,
-          label:item.nome
-        })
-      );
-      setProductsTypes(arrayLabelNome); 
-    })
-    .catch(error => {
-      throw error;
-    });
-    
+    api
+      .get('/tipos_produtos')
+      .then(response => {
+        const arrayLabelNome = response.data.map((item: any) => ({
+          value: item.id_tipo_produto,
+          label: item.nome,
+        }));
+        setProductsTypes(arrayLabelNome);
+      })
+      .catch(error => {
+        throw error;
+      });
   }, []);
 
   return (
@@ -179,7 +178,11 @@ const RegisterProduct: React.FC = () => {
               <Form onSubmit={handleSubmit} ref={formRef}>
                 <Input name="titulo" placeholder="Titulo" type="text" />
                 <Input name="descricao" placeholder="Descrição" type="text" />
-                <Input name="prazo" type="number" placeholder="Prazo de entrega (Em dias)" />
+                <Input
+                  name="prazo"
+                  type="number"
+                  placeholder="Prazo de entrega (Em dias)"
+                />
                 <PrecoArea isFilled={isFilled} isFocused={isFocused}>
                   <span>Preço</span>
                   <CurrencyInput
@@ -189,7 +192,8 @@ const RegisterProduct: React.FC = () => {
                     onFocus={handleInputFocus}
                     onBlur={handleInputBlur}
                     onChangeEvent={(event: ChangeEvent<HTMLInputElement>) =>
-                      setCurrency(event.target.value)}
+                      setCurrency(event.target.value)
+                    }
                   />
                 </PrecoArea>
                 <Select

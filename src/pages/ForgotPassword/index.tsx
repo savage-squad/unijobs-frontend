@@ -1,6 +1,14 @@
 import React from 'react';
 import { Form } from '@unform/web';
-import { Container, ContainerForm, Lateral, FormLinks, LinkForm, Button, BackLink } from './styles';
+import {
+  Container,
+  ContainerForm,
+  Lateral,
+  FormLinks,
+  LinkForm,
+  Button,
+  BackLink,
+} from './styles';
 
 import Input from './components/Input';
 
@@ -11,8 +19,7 @@ interface ButtonsProps {
 }
 
 const ForgotPassword: React.FC = () => {
-  function handleSubmit() {
-  }
+  function handleSubmit() {}
   return (
     <>
       <ScrollToTopOnMount />
@@ -25,14 +32,19 @@ const ForgotPassword: React.FC = () => {
             <LinkForm to="registeruser">Registre-se</LinkForm>
           </FormLinks>
           <Form onSubmit={handleSubmit}>
-            <Input name="email" type="email" label="Seu e-mail" placeholder="Digite seu e-mail de acesso" />
+            <Input
+              name="email"
+              type="email"
+              label="Seu e-mail"
+              placeholder="Digite seu e-mail de acesso"
+            />
             <Button>Solicitar Nova Senha</Button>
             <BackLink to="login">Voltar</BackLink>
           </Form>
         </ContainerForm>
       </Container>
     </>
-  )
-}
+  );
+};
 
 export default ForgotPassword;

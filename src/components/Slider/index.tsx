@@ -26,41 +26,39 @@ const Slider: React.FC = () => {
 
   const hasProducts = (): boolean => !isEmpty(products);
 
-  return !hasProducts() && (
-    <Fragment>
-      Nenhum produto definido
-    </Fragment>
-  ) || (
-    <Carousel
-      infinite
-      slidesPerPage={4}
-      arrowLeft={<FiChevronLeft size={60} color="#0E346A" />}
-      arrowRight={<FiChevronRight size={60} color="#0E346A" />}
-      addArrowClickHandler
-      breakpoints={{
-        640: {
-          slidesPerPage: 1,
-          arrows: false,
-        },
-        900: {
-          slidesPerPage: 2,
-          arrows: false,
-        },
-      }}
-    >
-      {products.map(product => (
-        <Container>
-          <Content>
-            <Link to={`/item/${product.id}`} key={product.id}>
-              <img src={product.image_url} alt="Produto" />
-              <h1>{product.title}</h1>
-              <strong>R$ {product.price}</strong>
-              <span>{product.type}</span>
-            </Link>
-          </Content>
-        </Container>
-      ))}
-    </Carousel>
+  return (
+    (!hasProducts() && <Fragment>Nenhum produto definido</Fragment>) || (
+      <Carousel
+        infinite
+        slidesPerPage={4}
+        arrowLeft={<FiChevronLeft size={60} color="#0E346A" />}
+        arrowRight={<FiChevronRight size={60} color="#0E346A" />}
+        addArrowClickHandler
+        breakpoints={{
+          640: {
+            slidesPerPage: 1,
+            arrows: false,
+          },
+          900: {
+            slidesPerPage: 2,
+            arrows: false,
+          },
+        }}
+      >
+        {products.map(product => (
+          <Container>
+            <Content>
+              <Link to={`/item/${product.id}`} key={product.id}>
+                <img src={product.image_url} alt="Produto" />
+                <h1>{product.title}</h1>
+                <strong>R$ {product.price}</strong>
+                <span>{product.type}</span>
+              </Link>
+            </Content>
+          </Container>
+        ))}
+      </Carousel>
+    )
   );
 };
 

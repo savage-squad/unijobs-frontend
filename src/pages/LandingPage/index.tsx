@@ -39,12 +39,10 @@ const LandingPage: React.FC = () => {
       setProductsTypes(response.data);
     });
   }, []);
-  
-  
+
   const hasProducts = (): boolean => !isEmpty(productsTypes);
-  
+
   const hasServices = (): boolean => !isEmpty(servicesTypes);
-  
 
   return (
     <>
@@ -52,9 +50,7 @@ const LandingPage: React.FC = () => {
       <Banner backIcon={false} />
       <HeaderSlider />
       <Container>
-        <Title>
-          Adicionados recentemente
-        </Title>
+        <Title>Adicionados recentemente</Title>
         <SliderProducts />
         <Title>Navegar por tipo de item</Title>
         <Sider>
@@ -71,9 +67,7 @@ const LandingPage: React.FC = () => {
         </Sider>
 
         <Title>Serviços</Title>
-        {!hasServices() && (
-          "Nenhum serviço definido"
-        )}
+        {!hasServices() && 'Nenhum serviço definido'}
         {hasServices() && (
           <Carousel
             infinite
@@ -92,19 +86,21 @@ const LandingPage: React.FC = () => {
               },
             }}
           >
-            {servicesTypes.map(servicesType =>(
+            {servicesTypes.map(servicesType => (
               <CategoriesCard
                 icon={IoIosIceCream}
                 title={servicesType.nome}
-                link={"/categories/tiposServicos/"+ servicesType.id_tipo_servico +"/servicos/0"}
+                link={
+                  '/categories/tiposServicos/' +
+                  servicesType.id_tipo_servico +
+                  '/servicos/0'
+                }
               />
             ))}
           </Carousel>
         )}
         <Title>Produtos</Title>
-        {!hasProducts() && (
-          "Nenhum produto definido"
-        )}
+        {!hasProducts() && 'Nenhum produto definido'}
         {hasProducts() && (
           <Carousel
             infinite
@@ -123,16 +119,17 @@ const LandingPage: React.FC = () => {
               },
             }}
           >
-            {productsTypes.map(productsType =>(
+            {productsTypes.map(productsType => (
               <CategoriesCard
                 icon={IoIosIceCream}
                 title={productsType.nome}
-                link={"/categories/tipos_produtos/"+ productsType.id_tipo_produto +"/produtos/0"}
+                link={
+                  '/categories/tipos_produtos/' +
+                  productsType.id_tipo_produto +
+                  '/produtos/0'
+                }
               />
-            ))
-
-            }
-            
+            ))}
           </Carousel>
         )}
         <Title>Sobre a UniJobs</Title>

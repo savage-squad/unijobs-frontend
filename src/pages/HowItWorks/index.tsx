@@ -27,9 +27,13 @@ const HowItWorks: React.FC = () => {
                 src={sellerRegister}
                 alt="cadastrando produtos e serviços"
               />
-              <Title style={{marginTop: '-18px'}}>Cadastrando produtos e serviços</Title>
-              <Text style={{marginBottom: 23 }}>
-              Para você que é aluno da UniAmérica basta adicionar as informações sobre o seu produto ou serviço e uma forma de contato.
+              <Title style={{ marginTop: '-18px' }}>
+                Cadastrando produtos e serviços
+              </Title>
+              <Text style={{ marginBottom: 23 }}>
+                Para você que é aluno da UniAmérica basta adicionar as
+                informações sobre o seu produto ou serviço e uma forma de
+                contato.
               </Text>
             </Card>
           </Col>
@@ -38,7 +42,9 @@ const HowItWorks: React.FC = () => {
               <Image src={buyerSearch} alt="busca de produtos e serviços" />
               <Title>Busca de produtos e serviços</Title>
               <Text>
-                Agora se você quer ajudar e adquirir produtos ou serviços produzidos por essa galera supercompetente entre na nossa plataforma e escolha entre os mais diversos itens o que desejar.
+                Agora se você quer ajudar e adquirir produtos ou serviços
+                produzidos por essa galera supercompetente entre na nossa
+                plataforma e escolha entre os mais diversos itens o que desejar.
               </Text>
             </Card>
           </Col>

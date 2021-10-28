@@ -15,7 +15,7 @@ export const Container = styled.section`
 `;
 
 export const ContainerForm = styled.section`
-   display: flex;
+  display: flex;
   flex-direction: column;
   width: 40vw;
   height: calc(100vh - 60px);
@@ -30,7 +30,7 @@ export const ContainerForm = styled.section`
   @media only screen and (min-width: 1700px) {
     border-radius: 0px 20px 20px 0px;
     overflow-y: auto;
-    scroll-behavior:auto;
+    scroll-behavior: auto;
   }
 `;
 
