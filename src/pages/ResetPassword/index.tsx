@@ -12,7 +12,6 @@ interface ButtonsProps {
 
 const ResetPassword: React.FC = () => {
   function handleSubmit() {
-    console.log("show");
   }
   return (
     <>

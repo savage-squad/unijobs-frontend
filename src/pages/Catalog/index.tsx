@@ -12,14 +12,6 @@ import Loading from '../../components/Loading';
 import { IItem } from '../../services/types';
 
 import ScrollToTopOnMount from '../../utils/ScrollToTopOnMount';
-// interface Product {
-//   _id: string;
-//   title: string;
-//   description: string;
-//   price: string;
-//   type: string;
-//   image: string[];
-// }
 
 interface RepositoryParams {
   page: string;
@@ -35,7 +27,6 @@ const Catalog: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const imageNotFound: string = "https://imgur.com/sM05PIm";
-  console.log(params)
   useEffect(() => {
     setLoading(true);
       if (params.categorie) {
@@ -47,7 +38,7 @@ const Catalog: React.FC = () => {
             setProducts(response.data);
           })
           .catch(e => {
-            console.log(e);
+            throw e
           });
         setLoading(false);
       } else {
@@ -57,7 +48,7 @@ const Catalog: React.FC = () => {
             setProducts(response.data.content);
           })
           .catch(e => {
-            console.log(e);
+            throw e
           });
         setLoading(false);
       }

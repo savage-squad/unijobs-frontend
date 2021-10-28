@@ -50,6 +50,7 @@ interface TypeProductProps {
   value: number;
   label: string;
 }
+
 interface FreeImageItem {
   image: {url : string}
 }
@@ -60,57 +61,49 @@ const RegisterProduct: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const [currency, setCurrency] = useState<string>('');
   const [loading, setLoading] = useState(false);
-  const [img1, setImg1] = useState({} as File);
+  const [img1, setImg1] = useState<File>();
   // const [img2, setImg2] = useState<File>({} as File);
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
   const ctx = useAuth();
 
-  const handleCreateProduct = useCallback(
-    async (data: ItemProps) => {
-      const imagem1 = new FormData();
-      imagem1.append('file', img1);
+  const handleCreateProduct = async (data: ItemProps) => {
+    const formData = new FormData();
+    formData.append('miniatura', img1 as File, img1?.name);
 
-      // const imagem2 = new FormData();
-      // imagem2.append('file', img2);
-      // const apiImg2 = await api.post('/files', imagem2);
-      console.log(img1);
-      const item = {
-        // title: data.title,
-        titulo: data.titulo,
-        // description: data.description,
-        descricao: data.descricao,
-        // item_type: data.item_type,
-        // item_category: data.item_category,
-        id_tipo_produto: data.id_tipo_produto,
-        // price: data.price,
-        preco: data.preco,
-        prazo: data.prazo,
-        // miniatura: img1,
-        miniatura: data.miniatura,
-        id_usuario: ctx.user?.id,
-        // thumbnail_id: apiImg1.data.id,
-        // thumbnail_url: apiImg1.data.url,
-        // image_id: apiImg2.data.id,
-        // image_url: apiImg2.data.url
-      };
+    const item = {
+      titulo: data.titulo,
+      descricao: data.descricao,
+      id_tipo_produto: data.id_tipo_produto,
+      preco: data.preco,
+      prazo: data.prazo,
+      id_usuario: ctx.user?.id,
+    };
 
-      if (!item) {
-        setLoading(true);
-      }
+    Object.keys(item).forEach(key => {
+      //@ts-ignore
+      formData.append(key, item[key])
+    });
 
-      await api.post('/produtos', item);
-      setLoading(false);
-      history.push('/');
-      
-      addToast({
-        title: 'Produto criado',
-        description: 'Seu produto foi criado com sucesso!',
-        type: 'sucess',
-      });
-    },
-    [addToast, history], //, img1, img2
-  );
+    if (!item) {
+      setLoading(true);
+    }
+
+    await api.request({
+      url: '/produtos',
+      method: 'POST',
+      data: formData
+    });
+
+    setLoading(false);
+    history.push('/');
+    
+    addToast({
+      title: 'Produto criado',
+      description: 'Seu produto foi criado com sucesso!',
+      type: 'sucess',
+    });
+  }
 
   const handleImage1 = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -118,49 +111,33 @@ const RegisterProduct: React.FC = () => {
     }
   }, []);
 
-  // const handleImage2 = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-  //   if (event.target.files) {
-  //     setImg2(event.target.files[0]);
-  //   }
-  // }, []);
-
   const handleCurrencyMoney = useCallback(async (money: string) => {
     const moneyFormated = Number(money.replace(/[^0-9.-]+/g, ''));
 
     return moneyFormated;
   }, []);
 
-  const handleSubmit = useCallback(
-    async (data: ItemProps) => {
-      setLoading(true);
-      data.preco = await handleCurrencyMoney(currency);
-      try {
-        const schema = Yup.object().shape({
-          // title: Yup.string().required(),
-          titulo: Yup.string().required(),
-          // description: Yup.string().required(),
-          descricao: Yup.string().required(),
-          // price: Yup.number().required(),
-          preco: Yup.string().required(),
-          prazo: Yup.string().required(),
-          // item_type: Yup.string().required(),
-          id_tipo_produto: Yup.string().required(),
-          miniatura: Yup.string().required(),
-        });
+  const handleSubmit = async (data: ItemProps) => {
+    data.preco = await handleCurrencyMoney(currency);
+    try {
+      const schema = Yup.object().shape({
+        titulo: Yup.string().required(),
+        descricao: Yup.string().required(),
+        preco: Yup.string().required(),
+        prazo: Yup.string().required(),
+        id_tipo_produto: Yup.string().required(),
+        miniatura: Yup.string().required(),
+      });
 
-        await schema.validate(data, {
-          abortEarly: false,
-        });
+      await schema.validate(data, {
+        abortEarly: false,
+      });
 
-        handleCreateProduct(data);
-      } catch (err) {
-        setLoading(false);
-        console.log(err);
-      }
-      
-    },
-    [handleCreateProduct, handleCurrencyMoney, currency],
-  );
+      handleCreateProduct(data);
+    } catch (err) {
+      throw err
+    }
+  }
 
   const handleInputFocus = useCallback(() => {
     setIsFocused(true);
@@ -183,7 +160,7 @@ const RegisterProduct: React.FC = () => {
       setProductsTypes(arrayLabelNome); 
     })
     .catch(error => {
-      console.log(error);
+      throw error;
     });
     
   }, []);
@@ -224,7 +201,7 @@ const RegisterProduct: React.FC = () => {
                   name="miniatura"
                   type="file"
                   label="Thumbnail"
-                  // onChange={handleImage1}
+                  onChange={handleImage1}
                 />
                 <Buttons>
                   <Button type="submit">Salvar</Button>

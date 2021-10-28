@@ -36,11 +36,10 @@ const Product: React.FC = () => {
     api
       .get(`/${params.itemType}/${params.id}`)
       .then(response => {
-        console.log(response.data);
         setPost(response.data);
       })
       .catch(e => {
-        console.log(e);
+        throw e
       });
     setLoading(false);
   }, [params.id]);
