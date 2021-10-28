@@ -12,14 +12,6 @@ import Loading from '../../components/Loading';
 import { IItem } from '../../services/types';
 
 import ScrollToTopOnMount from '../../utils/ScrollToTopOnMount';
-// interface Product {
-//   _id: string;
-//   title: string;
-//   description: string;
-//   price: string;
-//   type: string;
-//   image: string[];
-// }
 
 interface RepositoryParams {
   page: string;

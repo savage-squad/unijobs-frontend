@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Carousel from '@brainhubeu/react-carousel';
 import '@brainhubeu/react-carousel/lib/style.css';
@@ -8,6 +8,7 @@ import { Container, Content } from './styles';
 import { IItem } from '../../services/types';
 import api from '../../services/api';
 import FakeItem from '../../services/product';
+import { isEmpty } from '../../utils/FnHelper';
 
 const Slider: React.FC = () => {
   const [products, setProducts] = useState<IItem[]>([]);
@@ -24,7 +25,13 @@ const Slider: React.FC = () => {
       });
   }, []);
 
-  return (
+  const hasProducts = (): boolean => !isEmpty(products);
+
+  return !hasProducts() && (
+    <Fragment>
+      Nenhum produto definido
+    </Fragment>
+  ) || (
     <Carousel
       infinite
       slidesPerPage={4}

@@ -25,6 +25,7 @@ import aboutUnijobs from '../../assets/about-unijobs.png';
 import ScrollToTopOnMount from '../../utils/ScrollToTopOnMount';
 import api from '../../services/api';
 import { ITypes } from '../../services/types';
+import { isEmpty } from '../../utils/FnHelper';
 
 const LandingPage: React.FC = () => {
   const [servicesTypes, setServicesTypes] = useState<ITypes[]>([]);
@@ -40,6 +41,12 @@ const LandingPage: React.FC = () => {
       setProductsTypes(response.data);
     });
   }, []);
+  
+  
+  const hasProducts = (): boolean => !isEmpty(productsTypes);
+  
+  const hasServices = (): boolean => !isEmpty(servicesTypes);
+  
 
   return (
     <>
@@ -66,61 +73,70 @@ const LandingPage: React.FC = () => {
         </Sider>
 
         <Title>Serviços</Title>
-        <Carousel
-          infinite
-          slidesPerPage={4}
-          arrowLeft={<FiChevronLeft size={60} color="#0E346A" />}
-          arrowRight={<FiChevronRight size={60} color="#0E346A" />}
-          addArrowClickHandler
-          breakpoints={{
-            640: {
-              slidesPerPage: 1,
-              arrows: false,
-            },
-            900: {
-              slidesPerPage: 2,
-              arrows: false,
-            },
-          }}
-        >
-          {servicesTypes.map(servicesType =>(
-            <CategoriesCard
-              icon={IoIosIceCream}
-              title={servicesType.nome}
-              link={"/categories/tiposServicos/"+ servicesType.id_tipo_servico +"/servicos/0"}
-            />
-          ))}
-          
-        </Carousel>
+        {!hasServices() && (
+          "Nenhum serviço definido"
+        )}
+        {hasServices() && (
+          <Carousel
+            infinite
+            slidesPerPage={4}
+            arrowLeft={<FiChevronLeft size={60} color="#0E346A" />}
+            arrowRight={<FiChevronRight size={60} color="#0E346A" />}
+            addArrowClickHandler
+            breakpoints={{
+              640: {
+                slidesPerPage: 1,
+                arrows: false,
+              },
+              900: {
+                slidesPerPage: 2,
+                arrows: false,
+              },
+            }}
+          >
+            {servicesTypes.map(servicesType =>(
+              <CategoriesCard
+                icon={IoIosIceCream}
+                title={servicesType.nome}
+                link={"/categories/tiposServicos/"+ servicesType.id_tipo_servico +"/servicos/0"}
+              />
+            ))}
+          </Carousel>
+        )}
         <Title>Produtos</Title>
-        <Carousel
-          infinite
-          slidesPerPage={4}
-          arrowLeft={<FiChevronLeft size={60} color="#0E346A" />}
-          arrowRight={<FiChevronRight size={60} color="#0E346A" />}
-          addArrowClickHandler
-          breakpoints={{
-            640: {
-              slidesPerPage: 1,
-              arrows: false,
-            },
-            900: {
-              slidesPerPage: 2,
-              arrows: false,
-            },
-          }}
-        >
-          {productsTypes.map(productsType =>(
-            <CategoriesCard
-              icon={IoIosIceCream}
-              title={productsType.nome}
-              link={"/categories/tipos_produtos/"+ productsType.id_tipo_produto +"/produtos/0"}
-            />
-          ))
+        {!hasProducts() && (
+          "Nenhum produto definido"
+        )}
+        {hasProducts() && (
+          <Carousel
+            infinite
+            slidesPerPage={4}
+            arrowLeft={<FiChevronLeft size={60} color="#0E346A" />}
+            arrowRight={<FiChevronRight size={60} color="#0E346A" />}
+            addArrowClickHandler
+            breakpoints={{
+              640: {
+                slidesPerPage: 1,
+                arrows: false,
+              },
+              900: {
+                slidesPerPage: 2,
+                arrows: false,
+              },
+            }}
+          >
+            {productsTypes.map(productsType =>(
+              <CategoriesCard
+                icon={IoIosIceCream}
+                title={productsType.nome}
+                link={"/categories/tipos_produtos/"+ productsType.id_tipo_produto +"/produtos/0"}
+              />
+            ))
 
-          }
-          
-        </Carousel>
+            }
+            
+          </Carousel>
+        )}
         <Title>Sobre a UniJobs</Title>
         <Imagem src={aboutUnijobs} alt="Sobre a UniJobs" />
       </Container>
