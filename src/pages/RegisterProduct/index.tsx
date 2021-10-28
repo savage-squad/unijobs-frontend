@@ -70,7 +70,6 @@ const RegisterProduct: React.FC = () => {
   const handleCreateProduct = async (data: ItemProps) => {
     const formData = new FormData();
     formData.append('miniatura', img1 as File, img1?.name);
-    console.log('img content', img1)
 
     const item = {
       titulo: data.titulo,
@@ -107,17 +106,10 @@ const RegisterProduct: React.FC = () => {
   }
 
   const handleImage1 = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    console.log({
-      data: event.target.files
-    })
     if (event.target.files) {
       setImg1(event.target.files[0]);
     }
   }, []);
-
-  useEffect(() => {
-    console.log('updated', { img1 })
-  }, [img1])
 
   const handleCurrencyMoney = useCallback(async (money: string) => {
     const moneyFormated = Number(money.replace(/[^0-9.-]+/g, ''));
@@ -126,7 +118,6 @@ const RegisterProduct: React.FC = () => {
   }, []);
 
   const handleSubmit = async (data: ItemProps) => {
-    console.log({ img1 })
     data.preco = await handleCurrencyMoney(currency);
     try {
       const schema = Yup.object().shape({
@@ -144,7 +135,7 @@ const RegisterProduct: React.FC = () => {
 
       handleCreateProduct(data);
     } catch (err) {
-      console.log(err);
+      throw err
     }
   }
 
@@ -169,7 +160,7 @@ const RegisterProduct: React.FC = () => {
       setProductsTypes(arrayLabelNome); 
     })
     .catch(error => {
-      console.log(error);
+      throw error;
     });
     
   }, []);
