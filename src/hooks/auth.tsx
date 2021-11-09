@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useContext, useState } from 'react';
 import api from '../services/api';
 import jwt_decode from 'jwt-decode';
+import { AxiosResponse } from 'axios';
 
 interface User {
   id: number;
@@ -25,6 +26,11 @@ interface AuthContextData {
   signOut(): void;
 }
 
+interface AuthenticationData {
+  access_token: string;
+  refresh_token: string;
+}
+
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
@@ -43,12 +49,12 @@ const AuthProvider: React.FC = ({ children }) => {
   });
 
   const signIn = useCallback(async ({ email, password }) => {
-    const response = await api.post('/authenticate', {
+    const response = await api.post<any, AxiosResponse<AuthenticationData>>('/authenticate', {
       email,
       password,
     });
 
-    const token = response.data.token;
+    const token = response.data.access_token;
     const decoded: any = jwt_decode(token);
     const user: any = { id: decoded.id_usuario, nome: decoded.nome };
     localStorage.setItem('@UniJobs:token', token);
@@ -60,7 +66,6 @@ const AuthProvider: React.FC = ({ children }) => {
     localStorage.removeItem('@UniJobs:token');
     localStorage.removeItem('@UniJobs:user');
     // localStorage.removeItem('@UniJobs:refreshToken');
-
     setData({} as AuthState);
   }, []);
 
