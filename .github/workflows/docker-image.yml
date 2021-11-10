@@ -13,6 +13,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: build and push
       run: |
-        docker build . --file devops/Dockerfile --tag ghcr.io/uniamerica/unijobs-front:$VERSION
+        docker build . --file Dockerfile --tag ghcr.io/uniamerica/unijobs-front:$VERSION
         echo ${{secrets.CR_PAT}} | docker login https://ghcr.io -u JonasXPX --password-stdin 
         docker push ghcr.io/uniamerica/unijobs-front:$VERSION
