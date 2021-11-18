@@ -43,7 +43,6 @@ const LandingPage: React.FC = () => {
   const hasProducts = (): boolean => !isEmpty(productsTypes);
 
   const hasServices = (): boolean => !isEmpty(servicesTypes);
-
   return (
     <>
       <ScrollToTopOnMount />

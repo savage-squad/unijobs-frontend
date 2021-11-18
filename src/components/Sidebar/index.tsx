@@ -6,8 +6,8 @@ import { Container } from './styles';
 const Sidebar: React.FC = () => (
   <>
     <Container>
-      <Link to="/">Perfil</Link>
-      <Link to="/">Produtos</Link>
+      <Link to="/profile">Perfil</Link>
+      <Link to="/register">Produtos</Link>
       <Link to="/">Serviços</Link>
       <Link to="/">Meus Anúncios</Link>
     </Container>

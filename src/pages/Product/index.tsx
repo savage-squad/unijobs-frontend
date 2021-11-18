@@ -18,6 +18,7 @@ import Loading from '../../components/Loading';
 
 import api from '../../services/api';
 import ScrollToTopOnMount from '../../utils/ScrollToTopOnMount';
+import applicationContext from '../../config/ApplicationContext';
 
 interface RepositoryParams {
   id: string;
@@ -29,7 +30,7 @@ const Product: React.FC = () => {
   const [post, setPost] = useState<IItem>();
   const { params } = useRouteMatch<RepositoryParams>();
   const imageNotFound = 'https://i.imgur.com/sM05PIm.png';
-
+  
   useEffect(() => {
     setLoading(true);
 
