@@ -47,20 +47,23 @@ const AuthProvider: React.FC = ({ children }) => {
   });
 
   React.useEffect(() => {
-    let token = null
-    if (token = localStorage.getItem('@UniJobs:token')) {
+    let token = null;
+    if ((token = localStorage.getItem('@UniJobs:token'))) {
       createApplicationContext(token);
     }
-  })
+  });
 
   const signIn = useCallback(async ({ email, password }) => {
-    const response = await api.post<any, AxiosResponse<AuthenticationData>>('/authenticate', {
-      email,
-      password,
-    });
+    const response = await api.post<any, AxiosResponse<AuthenticationData>>(
+      '/authenticate',
+      {
+        email,
+        password,
+      },
+    );
 
     const token = response.data.access_token;
-    createApplicationContext(token)
+    createApplicationContext(token);
 
     const decoded: any = jwt_decode(token);
     const user: any = { id: decoded.id_usuario, nome: decoded.nome };
@@ -107,22 +110,19 @@ function createApplicationContext(jwtToken: string) {
 
 function mapperRoles(roles: string): Module[] {
   if (roles === null) {
-    return []
+    return [];
   }
-  
-  const userRoles: Module[] = roles
-    .split(';')
-    .map(parseModule)
 
-  return userRoles
+  const userRoles: Module[] = roles.split(';').map(parseModule);
+
+  return userRoles;
 }
 
-function parseModule(role: String): Module {
+function parseModule(role: string): Module {
   return {
     code: role,
-    name: role
-  } as Module
+    name: role,
+  } as Module;
 }
-
 
 export { AuthProvider, useAuth };

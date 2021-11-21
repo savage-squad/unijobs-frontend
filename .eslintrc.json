@@ -23,6 +23,7 @@
     },
     "plugins": [
         "react",
+        "import",
         "@typescript-eslint",
         "react-hooks",
         "prettier"
@@ -40,7 +41,12 @@
       "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
       "import/prefer-default-export": "off",
       "react/jsx-one-expression-per-line": "off",
-      "prettier/prettier": "error",
+      "prettier/prettier": [
+        "error",
+        {
+          "endOfLine": "auto"
+        }
+      ],
       "treatUndefinedAsUnspecified": "off",
       "consistent-return": "off",
       "no-unused-expressions":"off",
