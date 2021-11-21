@@ -28,6 +28,7 @@ import product from '../../services/product';
 import { useAuth } from '../../hooks/auth';
 import fileApi from '../../services/fileApi';
 import applicationContext from '../../config/ApplicationContext';
+import { isAdmin } from '../../utils/utils';
 
 interface ItemProps {
   // title: string;

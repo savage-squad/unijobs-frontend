@@ -3,7 +3,9 @@ import api from '../services/api';
 import jwt_decode from 'jwt-decode';
 import { AxiosResponse } from 'axios';
 import applicationContext, { Module } from '../config/ApplicationContext';
-
+interface Role {
+  authority: string;
+}
 interface User {
   id: number;
   nome: string;
@@ -108,20 +110,20 @@ function createApplicationContext(jwtToken: string) {
   applicationContext.setModules(mapperRoles(decoded.roles));
 }
 
-function mapperRoles(roles: string): Module[] {
+function mapperRoles(roles: Role[]): Module[] {
   if (roles === null) {
     return [];
   }
 
-  const userRoles: Module[] = roles.split(';').map(parseModule);
+  const userRoles: Module[] = roles.map(parseModule);
 
   return userRoles;
 }
 
-function parseModule(role: string): Module {
+function parseModule(role: Role): Module {
   return {
-    code: role,
-    name: role,
+    code: role.authority,
+    name: role.authority,
   } as Module;
 }
 
