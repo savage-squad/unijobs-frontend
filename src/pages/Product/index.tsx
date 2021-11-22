@@ -18,6 +18,7 @@ import Loading from '../../components/Loading';
 
 import api from '../../services/api';
 import ScrollToTopOnMount from '../../utils/ScrollToTopOnMount';
+import applicationContext from '../../config/ApplicationContext';
 
 interface RepositoryParams {
   id: string;

@@ -2,14 +2,16 @@ import React, { createContext, useCallback, useContext, useState } from 'react';
 import api from '../services/api';
 import jwt_decode from 'jwt-decode';
 import { AxiosResponse } from 'axios';
-
+import applicationContext, { Module } from '../config/ApplicationContext';
+interface Role {
+  authority: string;
+}
 interface User {
   id: number;
   nome: string;
 }
 interface AuthState {
   token: string;
-  // refreshToken: string;
   user?: User;
 }
 
@@ -20,7 +22,6 @@ interface SignInCredentails {
 
 interface AuthContextData {
   token: string;
-  // refreshToken: string;
   user?: User;
   signIn(credentails: SignInCredentails): Promise<void>;
   signOut(): void;
@@ -37,7 +38,6 @@ const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>(() => {
     const token = localStorage.getItem('@UniJobs:token');
 
-    // const refreshToken = localStorage.getItem('@UniJobs:refreshToken');
     if (token) {
       api.defaults.headers.authorization = `Bearer ${token}`;
       const decoded: any = jwt_decode(token);
@@ -48,24 +48,36 @@ const AuthProvider: React.FC = ({ children }) => {
     return {} as AuthState;
   });
 
+  React.useEffect(() => {
+    let token = null;
+    if ((token = localStorage.getItem('@UniJobs:token'))) {
+      createApplicationContext(token);
+    }
+  });
+
   const signIn = useCallback(async ({ email, password }) => {
-    const response = await api.post<any, AxiosResponse<AuthenticationData>>('/authenticate', {
-      email,
-      password,
-    });
+    const response = await api.post<any, AxiosResponse<AuthenticationData>>(
+      '/authenticate',
+      {
+        email,
+        password,
+      },
+    );
 
     const token = response.data.access_token;
+    createApplicationContext(token);
+
     const decoded: any = jwt_decode(token);
     const user: any = { id: decoded.id_usuario, nome: decoded.nome };
-    localStorage.setItem('@UniJobs:token', token);
 
+    localStorage.setItem('@UniJobs:token', token);
     setData({ token, user });
   }, []);
 
   const signOut = useCallback(() => {
     localStorage.removeItem('@UniJobs:token');
     localStorage.removeItem('@UniJobs:user');
-    // localStorage.removeItem('@UniJobs:refreshToken');
+    applicationContext.destroy();
     setData({} as AuthState);
   }, []);
 
@@ -74,7 +86,6 @@ const AuthProvider: React.FC = ({ children }) => {
       value={{
         user: data.user,
         token: data.token,
-        // refreshToken: data.refreshToken,
         signIn,
         signOut,
       }}
@@ -92,6 +103,28 @@ function useAuth(): AuthContextData {
   }
 
   return context;
+}
+
+function createApplicationContext(jwtToken: string) {
+  const decoded: any = jwt_decode(jwtToken);
+  applicationContext.setModules(mapperRoles(decoded.roles));
+}
+
+function mapperRoles(roles: Role[]): Module[] {
+  if (roles === null) {
+    return [];
+  }
+
+  const userRoles: Module[] = roles.map(parseModule);
+
+  return userRoles;
+}
+
+function parseModule(role: Role): Module {
+  return {
+    code: role.authority,
+    name: role.authority,
+  } as Module;
 }
 
 export { AuthProvider, useAuth };
