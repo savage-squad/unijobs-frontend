@@ -30,26 +30,12 @@ const Catalog: React.FC = () => {
   useEffect(() => {
     setLoading(true);
     if (params.categorie) {
-      api
-        .get(
-          `/${params.categorie}/${params.categorieId}/${params.itemType}?page=${params.page}&size=5`,
-        )
-        .then(response => {
-          setProducts(response.data);
-        })
-        .catch(e => {
-          throw e;
-        });
+      api.get(`/${params.categorie}/${params.categorieId}/${params.itemType}?page=${params.page}&size=5`)
+        .then(response => setProducts(response.data));
       setLoading(false);
     } else {
-      api
-        .get(`/${params.itemType}?page=${params.page}&size=5`)
-        .then(response => {
-          setProducts(response.data.content);
-        })
-        .catch(e => {
-          throw e;
-        });
+      api.get(`/${params.itemType}?page=${params.page}&size=5`)
+        .then(response => setProducts(response.data.content));
       setLoading(false);
     }
     const nextPage = parseInt(params.page) + 1;
@@ -71,8 +57,7 @@ const Catalog: React.FC = () => {
               <Content key={product.id}>
                 <Link
                   to={`/item/${params.itemType}/${product.id}`}
-                  key={product.id}
-                >
+                  key={product.id}>
                   <img
                     src={
                       product.miniatura?.includes('http')
