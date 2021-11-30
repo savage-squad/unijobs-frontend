@@ -11,7 +11,8 @@ export const ProductItem = styled.section`
   margin: 0 0.5rem;
   height: 200px;
   width: 500px;
-
+  margin-bottom: 15px;
+  
   &:hover {
     box-shadow: 0 7px 16px 0 rgba(0, 0, 0, 0.2), 0 1px 3px 0 rgba(0, 0, 0, 0.1);
   }

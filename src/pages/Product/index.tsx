@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useRouteMatch } from 'react-router-dom';
-import { FaWhatsapp } from 'react-icons/fa';
-import { IItem } from '../../services/types';
+import React, { useState, useEffect } from 'react'
+import { useRouteMatch } from 'react-router-dom'
+import { FaWhatsapp } from 'react-icons/fa'
+import { IItem } from '../../services/types'
 import {
   Content,
   Item,
@@ -10,49 +10,49 @@ import {
   Description,
   Buttons,
   Price,
-} from './styles';
+} from './styles'
 
-import Banner from '../../components/Banner';
-import Footer from '../../components/Footer';
-import Loading from '../../components/Loading';
+import Banner from '../../components/Banner'
+import Footer from '../../components/Footer'
+import Loading from '../../components/Loading'
 
-import api from '../../services/api';
-import ScrollToTopOnMount from '../../utils/ScrollToTopOnMount';
-import applicationContext from '../../config/ApplicationContext';
+import api from '../../services/api'
+import ScrollToTopOnMount from '../../utils/ScrollToTopOnMount'
+import applicationContext from '../../config/ApplicationContext'
 
 interface RepositoryParams {
-  id: string;
-  itemType: string;
+  id: string
+  itemType: string
 }
 
 const Product: React.FC = () => {
-  const [loading, setLoading] = useState(false);
-  const [post, setPost] = useState<IItem>();
-  const { params } = useRouteMatch<RepositoryParams>();
-  const imageNotFound = 'https://i.imgur.com/sM05PIm.png';
+  const [loading, setLoading] = useState(false)
+  const [post, setPost] = useState<IItem>()
+  const { params } = useRouteMatch<RepositoryParams>()
+  const imageNotFound = 'https://i.imgur.com/sM05PIm.png'
 
   useEffect(() => {
-    setLoading(true);
+    setLoading(true)
 
     api
       .get(`/${params.itemType}/${params.id}`)
       .then(response => {
-        setPost(response.data);
+        setPost(response.data)
       })
       .catch(e => {
-        throw e;
-      });
-    setLoading(false);
-  }, [params.id]);
+        throw e
+      })
+    setLoading(false)
+  }, [params.id])
 
   // Remove tudo exceto números
-  const contactLink = post?.contato?.replace(/[^\d]+/g, '');
+  const contactLink = post?.contato?.replace(/[^\d]+/g, '')
 
   function maskPhone(v = '') {
-    v = v.replace(/\D/g, ''); //Remove tudo o que não é dígito
-    v = v.replace(/^(\d{2})(\d)/g, '($1) $2'); //Coloca parênteses em volta dos dois primeiros dígitos
-    v = v.replace(/(\d)(\d{4})$/, '$1-$2'); //Coloca hífen entre o quarto e o quinto dígitos
-    return v;
+    v = v.replace(/\D/g, '') //Remove tudo o que não é dígito
+    v = v.replace(/^(\d{2})(\d)/g, '($1) $2') //Coloca parênteses em volta dos dois primeiros dígitos
+    v = v.replace(/(\d)(\d{4})$/, '$1-$2') //Coloca hífen entre o quarto e o quinto dígitos
+    return v
   }
 
   return (
@@ -103,7 +103,7 @@ const Product: React.FC = () => {
       </Content>
       <Footer />
     </>
-  );
-};
+  )
+}
 
-export default Product;
+export default Product

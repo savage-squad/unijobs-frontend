@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEventHandler, useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 
 import { FiChevronLeft } from 'react-icons/fi';
@@ -14,6 +14,7 @@ interface BannerProps {
 const Banner: React.FC<BannerProps> = ({ backIcon }) => {
   const history = useHistory();
   const { signOut } = useAuth();
+  const [search, setSearch] = useState<string>('')
 
   function renderBackIcon(value: boolean) {
     if (value) {
@@ -29,6 +30,15 @@ const Banner: React.FC<BannerProps> = ({ backIcon }) => {
     signOut();
   };
 
+  const onChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value as string);
+  }
+
+  const submitSearch = (event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLSpanElement>) => {
+    history.push(`/products/${search}`)
+    event.preventDefault();
+  }
+
   const isLogged = !!localStorage.getItem('@UniJobs:token');
 
   return (
@@ -37,10 +47,15 @@ const Banner: React.FC<BannerProps> = ({ backIcon }) => {
       <Link to="/">
         <img src={logo} alt="Logo UniJobs" />
       </Link>
-      {/* <div className="searchbar">
-        <input placeholder="Pesquise um item..." />
-        <span />
-      </div> */}
+      <form className='searchbar-form' onSubmit={submitSearch}>
+        <div className="searchbar">
+            <input 
+              value={search}
+              onChange={onChangeSearch}
+              placeholder="Pesquise um serviço..." />
+            <span onClick={submitSearch} />
+        </div>
+      </form>
       {isLogged ? (
         <div className="menu">
           <Link to="/register">Anunciar</Link>
