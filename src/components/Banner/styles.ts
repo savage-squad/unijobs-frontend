@@ -6,8 +6,8 @@ export const Header = styled.header`
   display: flex;
   align-items: center;
   padding: 0 35px;
-  justify-content: space-between;
-  height: 80px;
+  justify-content: space-evenly;
+  height: fit-content;
   background: #0e346a;
   flex-wrap: wrap;
 
@@ -83,10 +83,8 @@ export const Header = styled.header`
 
   @media (max-width: 740px) {
     display: flex;
-    flex-direction: column;
     justify-content: space-around;
     padding: 15px 15px 30px 15px;
-    height: fit-content;
 
     img {
       margin-bottom: 20px;
