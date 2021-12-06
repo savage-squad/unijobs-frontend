@@ -1,7 +1,10 @@
-import {} from '../../Login/index';
-import * as ReactDOM from 'react-dom';
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 
-describe('Login components test'), () =>{
+import Login from '../../Login/index';
+
+/*describe('Login components test'), () =>{
     
     
 
@@ -25,4 +28,29 @@ describe('Login components test'), () =>{
 
         const label = container.querySelector('label');
         expect(label).not.toBeInTheDocument();
-    })
+    });*/
+
+
+test('Test', () => {
+  render(
+    <BrowserRouter>
+      <Login />
+    </BrowserRouter>,
+  );
+  const loadingElem = screen.getByText('Esqueceu sua senha?');
+  expect(loadingElem).toBeInTheDocument();
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
