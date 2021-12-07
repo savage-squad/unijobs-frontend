@@ -1,9 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { Fragment, useEffect, useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
-import Banner from '../../components/Banner'
-import Footer from '../../components/Footer'
-import Loading from '../../components/Loading'
+import React, { Fragment, useEffect, useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import Banner from '../../components/Banner';
+import Footer from '../../components/Footer';
+import Loading from '../../components/Loading';
 import {
   ProductCategory,
   ProductContent,
@@ -15,42 +15,42 @@ import {
   ProductLink,
   ProductPrice,
   ProductTitle,
-} from '../../components/SliderProducts/styles'
-import api from '../../services/api'
-import ScrollToTopOnMount from '../../utils/ScrollToTopOnMount'
-import { Title } from '../LandingPage/styles'
-import { Content } from '../Product/styles'
+} from '../../components/SliderProducts/styles';
+import api from '../../services/api';
+import ScrollToTopOnMount from '../../utils/ScrollToTopOnMount';
+import { Title } from '../LandingPage/styles';
+import { Content } from '../Product/styles';
 
 interface Params {
-  search?: string
+  search?: string;
 }
 
 interface IProduct {
-  id_produto: number
-  titulo: string
-  descricao: string
-  miniatura: string
-  type: string
-  tipoItem: string
-  preco: string
+  id_produto: number;
+  titulo: string;
+  descricao: string;
+  miniatura: string;
+  type: string;
+  tipoItem: string;
+  preco: string;
 }
 
 interface IPage<T> {
-  content: T[]
-  number: number
-  size: number
-  totalPage: number
+  content: T[];
+  number: number;
+  size: number;
+  totalPage: number;
 }
 
 const ProductFormList = () => {
-  const { search } = useParams<Params>()
-  const [products, setProducts] = useState<IPage<IProduct>>()
+  const { search } = useParams<Params>();
+  const [products, setProducts] = useState<IPage<IProduct>>();
 
   useEffect(() => {
     api.get<IPage<IProduct>>(`/produtos/${search}/search`).then(products => {
-      setProducts(products.data)
-    })
-  }, [search])
+      setProducts(products.data);
+    });
+  }, [search]);
 
   return (
     <Fragment>
@@ -94,10 +94,29 @@ const ProductFormList = () => {
             </ProductContent>
           </ProductItem>
         ))}
+        <li
+          style={{
+            width: '100%',
+          }}
+        >
+          {products?.content.map(product => (
+            <ul
+              key={product.id_produto}
+              style={{
+                background: 'white',
+                borderRadius: '5px',
+                marginBottom: '5px',
+              }}
+            >
+              <img src={product.miniatura} alt="" width="125px" />
+              <span>{product.titulo}</span>
+            </ul>
+          ))}
+        </li>
       </div>
       <Footer />
     </Fragment>
-  )
-}
+  );
+};
 
-export default ProductFormList
+export default ProductFormList;
