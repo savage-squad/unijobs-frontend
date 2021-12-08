@@ -36,6 +36,9 @@
       "react/jsx-props-no-spreading":"off",
       "react/prop-types": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
+
+      //biblioteca adicionada
+      "@typescript-eslint/no-extraneous-class": "off",
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "off",
       "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],

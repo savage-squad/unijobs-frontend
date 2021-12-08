@@ -9,6 +9,9 @@ interface Role {
 interface User {
   id: number;
   nome: string;
+  email: string;
+  telefone: string;
+  ra: string;
 }
 interface AuthState {
   token: string;
@@ -41,7 +44,7 @@ const AuthProvider: React.FC = ({ children }) => {
     if (token) {
       api.defaults.headers.authorization = `Bearer ${token}`;
       const decoded: any = jwt_decode(token);
-      const user: any = { id: decoded.id_usuario, nome: decoded.nome };
+      const user: any = { id: decoded.id_usuario, nome: decoded.nome, telefone: decoded.celular, ra: decoded.ra, email:decoded.sub };
       return { token, user };
     }
 
@@ -68,7 +71,7 @@ const AuthProvider: React.FC = ({ children }) => {
     createApplicationContext(token);
 
     const decoded: any = jwt_decode(token);
-    const user: any = { id: decoded.id_usuario, nome: decoded.nome };
+    const user: any = {id: decoded.id_usuario, nome: decoded.nome, telefone: decoded.celular, ra: decoded.ra, email:decoded.sub};
 
     localStorage.setItem('@UniJobs:token', token);
     setData({ token, user });
