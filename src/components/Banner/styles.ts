@@ -45,13 +45,11 @@ export const Header = styled.header`
 
   .searchbar {
     display: flex;
-    align-items: center;
-    width: 50%;
+    width: 100%;
   }
 
   .searchbar input {
     display: flex;
-    align-items: center;
 
     margin: 0;
     height: 40px;
@@ -62,9 +60,7 @@ export const Header = styled.header`
     outline: none;
     border: 1px solid #dddddd;
     border-radius: 5px 0 0 5px;
-    /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
 
-    font-style: italic;
     font-weight: 500;
     font-size: 12px;
     color: #d9d9d9;
@@ -82,6 +78,7 @@ export const Header = styled.header`
     border-radius: 0 5px 5px 0;
     border-left: 0;
     background: #ffffff url(${searchIcon}) no-repeat center;
+    cursor: pointer;
   }
 
   @media (max-width: 740px) {

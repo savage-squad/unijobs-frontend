@@ -117,7 +117,6 @@ function mapperRoles(roles: Role[]): Module[] {
   if (roles === null) {
     return [];
   }
-
   const userRoles: Module[] = roles.map(parseModule);
 
   return userRoles;

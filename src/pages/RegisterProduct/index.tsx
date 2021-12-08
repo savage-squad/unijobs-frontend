@@ -1,12 +1,12 @@
-import React, { ChangeEvent, useCallback, useState, useRef } from 'react';
-import { Form } from '@unform/web';
-import { FormHandles } from '@unform/core';
-import * as Yup from 'yup';
-import { useHistory } from 'react-router-dom';
-import CurrencyInput from 'react-currency-input';
-import { useToast } from '../../hooks/toast';
-import api from '../../services/api';
-import ScrollToTopOnMount from '../../utils/ScrollToTopOnMount';
+import React, { ChangeEvent, useCallback, useState, useRef } from 'react'
+import { Form } from '@unform/web'
+import { FormHandles } from '@unform/core'
+import * as Yup from 'yup'
+import { useHistory } from 'react-router-dom'
+import CurrencyInput from 'react-currency-input'
+import { useToast } from '../../hooks/toast'
+import api from '../../services/api'
+import ScrollToTopOnMount from '../../utils/ScrollToTopOnMount'
 
 import {
   ContainerRoot,
@@ -15,29 +15,29 @@ import {
   Title,
   Formbox,
   Buttons,
-} from './styles';
-import Banner from '../../components/Banner';
-import Footer from '../../components/Footer';
-import Input from '../../components/Input';
-import Select from '../../components/Select';
-import Sidebar from '../../components/Sidebar';
-import Button from '../../components/Button';
-import Loading from '../../components/Loading';
-import { useEffect } from 'react';
-import product from '../../services/product';
-import { useAuth } from '../../hooks/auth';
-import fileApi from '../../services/fileApi';
-import applicationContext from '../../config/ApplicationContext';
-import { isAdmin } from '../../utils/utils';
+} from './styles'
+import Banner from '../../components/Banner'
+import Footer from '../../components/Footer'
+import Input from '../../components/Input'
+import Select from '../../components/Select'
+import Sidebar from '../../components/Sidebar'
+import Button from '../../components/Button'
+import Loading from '../../components/Loading'
+import { useEffect } from 'react'
+import product from '../../services/product'
+import { useAuth } from '../../hooks/auth'
+import fileApi from '../../services/fileApi'
+import applicationContext from '../../config/ApplicationContext'
+import { isAdmin } from '../../utils/utils'
 
 interface ItemProps {
   // title: string;
-  titulo?: string;
-  miniatura?: string;
-  descricao?: string;
-  preco?: number;
-  prazo?: number;
-  id_tipo_produto: number;
+  titulo?: string
+  miniatura?: string
+  descricao?: string
+  preco?: number
+  prazo?: number
+  id_tipo_produto: number
   // description: string;
   // item_type: string;
   // item_category: string;
@@ -49,29 +49,29 @@ interface ItemProps {
 }
 
 interface TypeProductProps {
-  value: number;
-  label: string;
+  value: number
+  label: string
 }
 
 interface FreeImageItem {
-  image: { url: string };
+  image: { url: string }
 }
 
 const RegisterProduct: React.FC = () => {
-  const { addToast } = useToast();
-  const history = useHistory();
-  const formRef = useRef<FormHandles>(null);
-  const [currency, setCurrency] = useState<string>('');
-  const [loading, setLoading] = useState(false);
-  const [img1, setImg1] = useState<File>();
+  const { addToast } = useToast()
+  const history = useHistory()
+  const formRef = useRef<FormHandles>(null)
+  const [currency, setCurrency] = useState<string>('')
+  const [loading, setLoading] = useState(false)
+  const [img1, setImg1] = useState<File>()
   // const [img2, setImg2] = useState<File>({} as File);
-  const [isFocused, setIsFocused] = useState(false);
-  const [isFilled, setIsFilled] = useState(false);
-  const ctx = useAuth();
+  const [isFocused, setIsFocused] = useState(false)
+  const [isFilled, setIsFilled] = useState(false)
+  const ctx = useAuth()
 
   const handleCreateProduct = async (data: ItemProps) => {
-    const formData = new FormData();
-    formData.append('miniatura', img1 as File, img1?.name);
+    const formData = new FormData()
+    formData.append('miniatura', img1 as File, img1?.name)
 
     const item = {
       titulo: data.titulo,
@@ -80,47 +80,47 @@ const RegisterProduct: React.FC = () => {
       preco: data.preco,
       prazo: data.prazo,
       id_usuario: ctx.user?.id,
-    };
+    }
 
     Object.keys(item).forEach(key => {
       //@ts-ignore
-      formData.append(key, item[key]);
-    });
+      formData.append(key, item[key])
+    })
 
     if (!item) {
-      setLoading(true);
+      setLoading(true)
     }
 
     await api.request({
       url: '/produtos',
       method: 'POST',
       data: formData,
-    });
+    })
 
-    setLoading(false);
-    history.push('/');
+    setLoading(false)
+    history.push('/')
 
     addToast({
       title: 'Produto criado',
       description: 'Seu produto foi criado com sucesso!',
       type: 'sucess',
-    });
-  };
+    })
+  }
 
   const handleImage1 = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      setImg1(event.target.files[0]);
+      setImg1(event.target.files[0])
     }
-  }, []);
+  }, [])
 
   const handleCurrencyMoney = useCallback(async (money: string) => {
-    const moneyFormated = Number(money.replace(/[^0-9.-]+/g, ''));
+    const moneyFormated = Number(money.replace(/[^0-9.-]+/g, ''))
 
-    return moneyFormated;
-  }, []);
+    return moneyFormated
+  }, [])
 
   const handleSubmit = async (data: ItemProps) => {
-    data.preco = await handleCurrencyMoney(currency);
+    data.preco = await handleCurrencyMoney(currency)
     try {
       const schema = Yup.object().shape({
         titulo: Yup.string().required(),
@@ -129,28 +129,28 @@ const RegisterProduct: React.FC = () => {
         prazo: Yup.string().required(),
         id_tipo_produto: Yup.string().required(),
         miniatura: Yup.string().required(),
-      });
+      })
 
       await schema.validate(data, {
         abortEarly: false,
-      });
+      })
 
-      handleCreateProduct(data);
+      handleCreateProduct(data)
     } catch (err) {
-      throw err;
+      throw err
     }
-  };
+  }
 
   const handleInputFocus = useCallback(() => {
-    setIsFocused(true);
-  }, []);
+    setIsFocused(true)
+  }, [])
 
   const handleInputBlur = useCallback(() => {
-    setIsFocused(false);
-    setIsFilled(true);
-  }, []);
+    setIsFocused(false)
+    setIsFilled(true)
+  }, [])
 
-  const [productTypes, setProductsTypes] = useState<TypeProductProps[]>([]);
+  const [productTypes, setProductsTypes] = useState<TypeProductProps[]>([])
   useEffect(() => {
     api
       .get('/tipos_produtos')
@@ -158,13 +158,13 @@ const RegisterProduct: React.FC = () => {
         const arrayLabelNome = response.data.map((item: any) => ({
           value: item.id_tipo_produto,
           label: item.nome,
-        }));
-        setProductsTypes(arrayLabelNome);
+        }))
+        setProductsTypes(arrayLabelNome)
       })
       .catch(error => {
-        throw error;
-      });
-  }, []);
+        throw error
+      })
+  }, [])
 
   return (
     <>
@@ -220,7 +220,7 @@ const RegisterProduct: React.FC = () => {
         <Footer />
       </div>
     </>
-  );
-};
+  )
+}
 
-export default RegisterProduct;
+export default RegisterProduct
