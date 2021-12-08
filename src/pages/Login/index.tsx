@@ -56,7 +56,7 @@ const Login: React.FC = () => {
         await schema.validate(data, {
           abortEarly: false,
         });
-
+        
         await signIn({
           email: data.email,
           password: data.password,
@@ -93,12 +93,14 @@ const Login: React.FC = () => {
           </FormLinks>
           <Form ref={formRef} onSubmit={handleSubmit}>
             <Input
+              data-testid="testid"
               name="email"
               type="email"
               label="E-mail"
               placeholder="Digite seu E-mail"
             />
             <Input
+              data-testid="testid"
               name="password"
               type="password"
               label="Senha do Aluno"

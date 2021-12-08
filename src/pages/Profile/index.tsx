@@ -1,63 +1,43 @@
 import React, { useCallback, useState } from 'react';
-import { Form } from '@unform/web';
-import { IoMdCall, IoMdLock, IoMdPeople, IoIosMail } from 'react-icons/io';
 import * as Yup from 'yup';
+import { useAuth } from '../../hooks/auth';
+import {
+  TabView, TabPanel
+} from 'primereact/tabview'
+
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
 
 import {
   ContainerRoot,
-  FormGrid,
-  Formbox,
-  Buttons,
   Foot,
-  InputBox,
 } from './styles';
+
+import MeuPerfil from '../../components/Profile';
+import AtualizarSenha  from '../../components/Password';
 import Banner from '../../components/Banner';
-import Input from '../../components/Input';
+
 import Footer from '../../components/Footer';
 import Menu from '../../components/Sidebar';
-import Button from '../../components/Button';
+
 import Loading from '../../components/Loading';
 import ScrollToTopOnMount from '../../utils/ScrollToTopOnMount';
 const Profile: React.FC = () => {
   const [loading, setLoading] = useState(false);
-  const handleCreateProfile = useCallback(async data => {
-    // const profile = {
-    //   name: data.name,
-    //   ra: data.ra,
-    //   number: data.number,
-    //   email: data.email,
-    //   password: data.password,
-    //   profileimage: data.profileimages,
-    // }
+
+  
+  const handleUpdateProfile = useCallback(async data => {
+    alert('Implementar atualizar perfil')
+  }, []);
+
+  
+  const handleUpdatePassword = useCallback(async data => {
+    alert('Implementar atualizar senha')
+    
   }, []);
 
 
-  
-
-  const handleSubmit = useCallback(
-    async (data: object) => {
-      setLoading(true);
-      try {
-        const schema = Yup.object().shape({
-          name: Yup.string().required(),
-          ra: Yup.number().required(),
-          number: Yup.number().required(),
-          email: Yup.string().required(),
-          password: Yup.string().required(),
-        });
-
-        await schema.validate(data, {
-          abortEarly: false,
-        });
-
-        handleCreateProfile(data);
-      } catch (err) {
-        alert(err);
-      }
-      setLoading(false);
-    },
-    [handleCreateProfile],
-  );
 
   return (
     <>
@@ -67,82 +47,21 @@ const Profile: React.FC = () => {
         <Banner backIcon />
         <ContainerRoot>
           <Menu />
-          <Form onSubmit={handleSubmit}>
-            <FormGrid>
-              <Formbox>
-                <legend>Imagem de perfil</legend>
-                <InputBox>
-                  <Input label="Carregar Imagem" name="images" type="file" />
-                </InputBox>
-              </Formbox>
+          <TabView>
 
-              <Formbox>
-                <legend>Sobre Mim</legend>
-                <InputBox>
-                  <Input
-                    label="Nome Completo"
-                    name="title"
-                    type="text"
-                    icon={IoMdPeople}
-                  />
-                  <Input
-                    label="R.A"
-                    help="Digite seu Registro Academico da UniAmérica"
-                    icon={IoMdPeople}
-                    name="title"
-                    type="text"
-                  />
-                </InputBox>
-              </Formbox>
+            <TabPanel header="Perfil">
+              <MeuPerfil onSubmit ={handleUpdateProfile} />
+            </TabPanel>
 
-              <Formbox>
-                <legend>Detalhes de Contato</legend>
-                <InputBox>
-                  <Input
-                    label="Telefone Principal"
-                    icon={IoMdCall}
-                    name="title"
-                    type="text"
-                  />
-                  <Input
-                    label="Email"
-                    icon={IoIosMail}
-                    name="title"
-                    type="email"
-                  />
-                </InputBox>
-              </Formbox>
 
-              <Formbox>
-                <legend>Senha</legend>
-                <InputBox>
-                  <Input
-                    label="Senha atual"
-                    icon={IoMdLock}
-                    name="title"
-                    type="password"
-                  />
-                  <Input
-                    label="Nova Senha"
-                    icon={IoMdLock}
-                    name="title"
-                    type="password"
-                  />
-                  <Input
-                    label="Repita a senha"
-                    icon={IoMdLock}
-                    name="title"
-                    type="password"
-                  />
-                </InputBox>
-              </Formbox>
+            <TabPanel header="Segurança">
 
-              <Buttons>
-                <Button type="submit">Salvar</Button>
-                <Button type="button">Cancelar</Button>
-              </Buttons>
-            </FormGrid>
-          </Form>
+              <AtualizarSenha onSubmit={handleUpdatePassword} />
+
+            </TabPanel>
+
+          </TabView>
+
           <Foot>
             <Footer />
           </Foot>
