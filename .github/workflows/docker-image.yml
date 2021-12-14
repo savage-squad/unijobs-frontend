@@ -15,6 +15,7 @@ jobs:
       run: |
         git clone --branch ${{ github.ref_name }} --single-branch  https://github.com/${{github.repository}}.git front-build
         cd front-build/ && docker build . --file Dockerfile --tag jonasxpx/unijobs-front:${{ github.ref_name }}
+        docker push jonasxpx/unijobs-front:${{ github.ref_name }}
     - name: Build the Docker image
       uses: appleboy/ssh-action@v0.1.4
       with:
