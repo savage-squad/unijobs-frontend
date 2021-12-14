@@ -15,6 +15,6 @@ jobs:
         port: 22
         script: |
           rm -rf front-build/ | exit 1
-          git clone --branch ${{ github.ref_name }} --single-branch  https://github.com/${{github.repository}}.git api-build
-          cd api-build/ && docker build . --file Dockerfile --tag ghcr.io/jonasxpx/unijobs-fron:${{ github.ref_name }}
+          git clone --branch ${{ github.ref_name }} --single-branch  https://github.com/${{github.repository}}.git front-build
+          cd front-build/ && docker build . --file Dockerfile --tag ghcr.io/jonasxpx/unijobs-fron:${{ github.ref_name }}
           docker service update --image ghcr.io/jonasxpx/unijobs-front:${{ github.ref_name }} web_frontend
