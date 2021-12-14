@@ -37,7 +37,6 @@ const Slider: React.FC = () => {
       <Fragment>Nenhum produto definido recentemente</Fragment>
     )) || (
       <Carousel
-        infinite
         slidesPerPage={2}
         arrowLeft={<FiChevronLeft size={60} color="#0E346A" />}
         arrowRight={<FiChevronRight size={60} color="#0E346A" />}
