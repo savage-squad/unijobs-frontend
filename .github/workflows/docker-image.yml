@@ -13,6 +13,7 @@ jobs:
         username: github
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
+        command_timeout: 60m
         script: |
           rm -rf front-build/ | exit 1
           git clone --branch ${{ github.ref_name }} --single-branch  https://github.com/${{github.repository}}.git front-build
