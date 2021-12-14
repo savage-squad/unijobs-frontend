@@ -84,9 +84,7 @@ const ProductFormList = () => {
               </ProductHeader>
               <ProductDescription>{product.descricao}</ProductDescription>
               <ProductFooter>
-                <ProductLink
-                  to={`/item/${product.tipoItem}/${product.id_produto}`}
-                >
+                <ProductLink to={`/item/produtos/${product.id_produto}`}>
                   + informações
                 </ProductLink>
                 <ProductPrice>R$ {product.preco}</ProductPrice>
@@ -94,25 +92,6 @@ const ProductFormList = () => {
             </ProductContent>
           </ProductItem>
         ))}
-        <li
-          style={{
-            width: '100%',
-          }}
-        >
-          {products?.content.map(product => (
-            <ul
-              key={product.id_produto}
-              style={{
-                background: 'white',
-                borderRadius: '5px',
-                marginBottom: '5px',
-              }}
-            >
-              <img src={product.miniatura} alt="" width="125px" />
-              <span>{product.titulo}</span>
-            </ul>
-          ))}
-        </li>
       </div>
       <Footer />
     </Fragment>
