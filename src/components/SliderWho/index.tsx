@@ -28,7 +28,6 @@ interface Product {
 const SliderWho: React.FC = () => {
   return (
     <Carousel
-      infinite
       slidesPerPage={2}
       arrowLeft={<FiChevronLeft size={60} color="#0E346A" />}
       arrowRight={<FiChevronRight size={60} color="#0E346A" />}
