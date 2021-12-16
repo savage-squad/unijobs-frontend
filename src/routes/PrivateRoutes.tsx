@@ -5,6 +5,7 @@ import {
   Route as ReactDOMRoute,
   RouteProps as ReactDOMRouteProps,
 } from 'react-router-dom';
+import StorageConstants from '../constants/StorageConstants';
 
 interface RouteProps extends ReactDOMRouteProps {
   isPrivate?: boolean;
@@ -15,7 +16,7 @@ const PrivateRoutes: React.FC<RouteProps> = ({
   component: Component,
   ...rest
 }) => {
-  const isLogged = !!localStorage.getItem('@UniJobs:token');
+  const isLogged = !!localStorage.getItem(StorageConstants.TOKEN);
   return isLogged ? (
     <ReactDOMRoute
       {...rest}

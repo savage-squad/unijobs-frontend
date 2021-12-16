@@ -6,6 +6,7 @@ import { FiChevronLeft } from 'react-icons/fi';
 import { Header } from './styles';
 import logo from '../../assets/logo.svg';
 import { useAuth } from '../../hooks/auth';
+import StorageConstants from '../../constants/StorageConstants';
 
 interface BannerProps {
   backIcon: boolean;
@@ -41,7 +42,7 @@ const Banner: React.FC<BannerProps> = ({ backIcon }) => {
     event.preventDefault();
   };
 
-  const isLogged = !!localStorage.getItem('@UniJobs:token');
+  const isLogged = !!localStorage.getItem(StorageConstants.TOKEN);
 
   return (
     <Header>

@@ -29,7 +29,7 @@ const Routes: React.FC = () => (
     <Route path="/login" component={Login} />
     <PrivateRoutes path="/register" component={RegisterProduct} />
     <PrivateRoutes path="/profile" component={Profile} />
-    <Route path="/products/:search?" component={ProductFormList}/>
+    <Route path="/products/:search?" component={ProductFormList} />
     <Route path="/forgot" component={ForgotPassword} />
     <Route path="/resetpassword" component={ResetPassword} />
     <Route path="/profile" component={Profile} />
