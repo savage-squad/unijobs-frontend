@@ -1,6 +1,5 @@
-/* eslint-disable react/no-unescaped-entities */
 import React, { Fragment, useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Banner from '../../components/Banner';
 import Footer from '../../components/Footer';
 import Loading from '../../components/Loading';
@@ -19,7 +18,7 @@ import {
 import api from '../../services/api';
 import ScrollToTopOnMount from '../../utils/ScrollToTopOnMount';
 import { Title } from '../LandingPage/styles';
-import { Content } from '../Product/styles';
+import styled from 'styled-components';
 
 interface Params {
   search?: string;
@@ -42,6 +41,14 @@ interface IPage<T> {
   totalPage: number;
 }
 
+const SearchContent = styled.div`
+  display: flex;
+  justify-content: start;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  flex-wrap: wrap;
+`;
+
 const ProductFormList = () => {
   const { search } = useParams<Params>();
   const [products, setProducts] = useState<IPage<IProduct>>();
@@ -58,23 +65,13 @@ const ProductFormList = () => {
       <Loading loading={false} />
       <Banner backIcon />
       <div style={{ margin: '10px 20px' }}>
-        <Title>Produtos encontrados com "{search}"</Title>
+        <Title>Produtos encontrados com &quot;{search}&quot;</Title>
       </div>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'start',
-          marginTop: '5%',
-          marginBottom: '5%',
-          flexWrap: 'wrap',
-        }}
-      >
+      <SearchContent>
         {products?.content.map(product => (
           <ProductItem key={product.id_produto}>
             <ProductImage
-              src={
-                product.miniatura?.includes('http') ? product.miniatura : 'asd'
-              }
+              src={product.miniatura?.includes('http') ? product.miniatura : ''}
               alt={product.titulo}
             />
             <ProductContent>
@@ -92,7 +89,7 @@ const ProductFormList = () => {
             </ProductContent>
           </ProductItem>
         ))}
-      </div>
+      </SearchContent>
       <Footer />
     </Fragment>
   );

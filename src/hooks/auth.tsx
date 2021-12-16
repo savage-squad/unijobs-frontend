@@ -1,8 +1,9 @@
 import React, { createContext, useCallback, useContext, useState } from 'react';
 import api from '../services/api';
 import jwt_decode from 'jwt-decode';
-import { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import applicationContext, { Module } from '../config/ApplicationContext';
+import StorageConstants from '../constants/StorageConstants';
 interface Role {
   authority: string;
 }
@@ -39,12 +40,18 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>(() => {
-    const token = localStorage.getItem('@UniJobs:token');
+    const token = localStorage.getItem(StorageConstants.TOKEN);
 
     if (token) {
       api.defaults.headers.authorization = `Bearer ${token}`;
       const decoded: any = jwt_decode(token);
-      const user: any = { id: decoded.id_usuario, nome: decoded.nome, telefone: decoded.celular, ra: decoded.ra, email:decoded.sub };
+      const user: any = {
+        id: decoded.id_usuario,
+        nome: decoded.nome,
+        telefone: decoded.celular,
+        ra: decoded.ra,
+        email: decoded.sub,
+      };
       return { token, user };
     }
 
@@ -53,7 +60,7 @@ const AuthProvider: React.FC = ({ children }) => {
 
   React.useEffect(() => {
     let token = null;
-    if ((token = localStorage.getItem('@UniJobs:token'))) {
+    if ((token = localStorage.getItem(StorageConstants.TOKEN))) {
       createApplicationContext(token);
     }
   });
@@ -68,18 +75,27 @@ const AuthProvider: React.FC = ({ children }) => {
     );
 
     const token = response.data.access_token;
+    const refreshToken = response.data.refresh_token;
     createApplicationContext(token);
 
     const decoded: any = jwt_decode(token);
-    const user: any = {id: decoded.id_usuario, nome: decoded.nome, telefone: decoded.celular, ra: decoded.ra, email:decoded.sub};
+    const user: any = {
+      id: decoded.id_usuario,
+      nome: decoded.nome,
+      telefone: decoded.celular,
+      ra: decoded.ra,
+      email: decoded.sub,
+    };
 
-    localStorage.setItem('@UniJobs:token', token);
+    localStorage.setItem(StorageConstants.TOKEN, token);
+    localStorage.setItem(StorageConstants.REFRESH_TOKEN, refreshToken);
     setData({ token, user });
   }, []);
 
   const signOut = useCallback(() => {
-    localStorage.removeItem('@UniJobs:token');
-    localStorage.removeItem('@UniJobs:user');
+    localStorage.removeItem(StorageConstants.TOKEN);
+    localStorage.removeItem(StorageConstants.REFRESH_TOKEN);
+    localStorage.removeItem(StorageConstants.USER);
     applicationContext.destroy();
     setData({} as AuthState);
   }, []);
@@ -97,7 +113,49 @@ const AuthProvider: React.FC = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+async function authenticateWithRefreshToken() {
+  return new Promise((accept, reject) => {
+    delete api.defaults.headers.common['authorization'];
+    const refreshToken = localStorage.getItem(StorageConstants.REFRESH_TOKEN);
+    const params = { refresh_token: refreshToken };
+    axios
+      .post<AuthenticationData>('/refresh_token', undefined, {
+        params,
+        baseURL: process.env.REACT_APP_BASE_URL,
+      })
+      .then(({ data }) => {
+        const { refresh_token, access_token } = data;
+        localStorage.setItem(StorageConstants.TOKEN, access_token);
+        localStorage.setItem(StorageConstants.REFRESH_TOKEN, refresh_token);
+        accept(access_token);
+      })
+      .catch(reject);
+  });
+}
 
+function handlerRefreshTokenInterceptor() {
+  api.interceptors.response.use(
+    response => {
+      return response;
+    },
+    async error => {
+      const token = localStorage.getItem(StorageConstants.TOKEN);
+      if (error.response.status === 401 && token) {
+        try {
+          const token = await authenticateWithRefreshToken();
+          error.config.headers['Authorization'] = `Bearer ${token}`;
+          return axios.request(error.config);
+        } catch (err) {
+          localStorage.removeItem(StorageConstants.TOKEN);
+          delete api.defaults.headers.common['authorization'];
+          return Promise.reject(error);
+        }
+      }
+      delete api.defaults.headers.common['authorization'];
+      return Promise.reject(error);
+    },
+  );
+}
 function useAuth(): AuthContextData {
   const context = useContext(AuthContext);
 
@@ -129,4 +187,4 @@ function parseModule(role: Role): Module {
   } as Module;
 }
 
-export { AuthProvider, useAuth };
+export { AuthProvider, useAuth, handlerRefreshTokenInterceptor };
